@@ -223,7 +223,7 @@ public class BeanDefinitionParserDelegate {
 	public static final String QUALIFIER_ATTRIBUTE_ELEMENT = "attribute";
 
 	public static final String DEFAULT_LAZY_INIT_ATTRIBUTE = "default-lazy-init";
-
+    //bean的默认merge行为
 	public static final String DEFAULT_MERGE_ATTRIBUTE = "default-merge";
 
 	public static final String DEFAULT_AUTOWIRE_ATTRIBUTE = "default-autowire";
@@ -327,10 +327,11 @@ public class BeanDefinitionParserDelegate {
 	public void initDefaults(Element root, BeanDefinitionParserDelegate parent) {
 		//设置委托代理对象的默认值
 		populateDefaults(this.defaults, (parent != null ? parent.defaults : null), root);
+		//事件通知
 		this.readerContext.fireDefaultsRegistered(this.defaults);
 	}
 
-	/**bean definition的默认设置
+	/**bean definition的默认设置<br>
 	 * Populate the given DocumentDefaultsDefinition instance with the default lazy-init,
 	 * autowire, dependency check settings, init-method, destroy-method and merge settings.
 	 * Support nested 'beans' element use cases by falling back to <literal>parentDefaults</literal>
@@ -340,7 +341,7 @@ public class BeanDefinitionParserDelegate {
 	 * @param root the root element of the current bean definition document (or nested beans element)
 	 */
 	protected void populateDefaults(DocumentDefaultsDefinition defaults, DocumentDefaultsDefinition parentDefaults, Element root) {
-		//获取配置
+		//获取配置懒加载
 		String lazyInit = root.getAttribute(DEFAULT_LAZY_INIT_ATTRIBUTE);
 		if (DEFAULT_VALUE.equals(lazyInit)) {
 			// Potentially inherited from outer <beans> sections, otherwise falling back to false.
@@ -348,14 +349,14 @@ public class BeanDefinitionParserDelegate {
 			lazyInit = (parentDefaults != null ? parentDefaults.getLazyInit() : FALSE_VALUE);
 		}
 		defaults.setLazyInit(lazyInit);
-
+        //bean的merge行为，比如子类和父类都配置了同一个属性，可通过此配置项配置是否子类覆盖父类的配置
 		String merge = root.getAttribute(DEFAULT_MERGE_ATTRIBUTE);
 		if (DEFAULT_VALUE.equals(merge)) {
 			// Potentially inherited from outer <beans> sections, otherwise falling back to false.
 			merge = (parentDefaults != null ? parentDefaults.getMerge() : FALSE_VALUE);
 		}
 		defaults.setMerge(merge);
-        //设置默认注入模式
+        //设置默认注入模式，默认是byType模式
 		String autowire = root.getAttribute(DEFAULT_AUTOWIRE_ATTRIBUTE);
 		if (DEFAULT_VALUE.equals(autowire)) {
 			// Potentially inherited from outer <beans> sections, otherwise falling back to 'no'.
@@ -452,7 +453,7 @@ public class BeanDefinitionParserDelegate {
 		//id值赋值给beanName
 		String beanName = id;
 		if (!StringUtils.hasText(beanName) && !aliases.isEmpty()) {
-			//beanName等于name属性的值
+			//beanName赋值为name属性的值
 			beanName = aliases.remove(0);
 			if (logger.isDebugEnabled()) {
 				logger.debug("No XML 'id' specified - using '" + beanName +
@@ -561,7 +562,7 @@ public class BeanDefinitionParserDelegate {
 			parseConstructorArgElements(ele, bd);
 			//解析property标签
 			parsePropertyElements(ele, bd);
-			//解析qualifier标签
+			//解析qualifier标签（指定注入）
 			parseQualifierElements(ele, bd);
 
 			bd.setResource(this.readerContext.getResource());
@@ -627,7 +628,7 @@ public class BeanDefinitionParserDelegate {
 			String dependsOn = ele.getAttribute(DEPENDS_ON_ATTRIBUTE);
 			bd.setDependsOn(StringUtils.tokenizeToStringArray(dependsOn, MULTI_VALUE_ATTRIBUTE_DELIMITERS));
 		}
-        //注入候选项autowire-candidate
+        //autowire-candidate表示是否参与自动注入的注入候选项
 		String autowireCandidate = ele.getAttribute(AUTOWIRE_CANDIDATE_ATTRIBUTE);
 		if ("".equals(autowireCandidate) || DEFAULT_VALUE.equals(autowireCandidate)) {
 			String candidatePattern = this.defaults.getAutowireCandidates();
@@ -687,7 +688,7 @@ public class BeanDefinitionParserDelegate {
 	 */
 	protected AbstractBeanDefinition createBeanDefinition(String className, String parentName)
 			throws ClassNotFoundException {
-        //创建bean definition并实例化classname的类
+        //创建bean definition并实例化指定classname的类
 		return BeanDefinitionReaderUtils.createBeanDefinition(
 				parentName, className, this.readerContext.getBeanClassLoader());
 	}
@@ -1452,6 +1453,7 @@ public class BeanDefinitionParserDelegate {
 			error("Unable to locate Spring NamespaceHandler for XML schema namespace [" + namespaceUri + "]", ele);
 			return null;
 		}
+		//调用自定义标签的parse方法，可扩展
 		return handler.parse(ele, new ParserContext(this.readerContext, this, containingBd));
 	}
 
@@ -1464,14 +1466,14 @@ public class BeanDefinitionParserDelegate {
 
 		BeanDefinitionHolder finalDefinition = definitionHolder;
 
-		// Decorate based on custom attributes first.
+		// 根据自定义属性进行解析.
 		NamedNodeMap attributes = ele.getAttributes();
 		for (int i = 0; i < attributes.getLength(); i++) {
 			Node node = attributes.item(i);
 			finalDefinition = decorateIfRequired(node, finalDefinition, containingBd);
 		}
 
-		// Decorate based on custom nested elements.
+		// 基于自定义嵌套元素进行进一步解析.
 		NodeList children = ele.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
@@ -1487,7 +1489,7 @@ public class BeanDefinitionParserDelegate {
 
 		String namespaceUri = getNamespaceURI(node);
 		if (!isDefaultNamespace(namespaceUri)) {
-			//获取NamespaceHandler
+			//获取NamespaceHandler，并且调用namespace handler的init方法
 			NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);
 			if (handler != null) {
 				return handler.decorate(node, originalDef, new ParserContext(this.readerContext, this, containingBd));

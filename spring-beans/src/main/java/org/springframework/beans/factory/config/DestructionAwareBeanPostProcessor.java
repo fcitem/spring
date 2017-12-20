@@ -18,9 +18,9 @@ package org.springframework.beans.factory.config;
 
 import org.springframework.beans.BeansException;
 
-/**
+/**BeanPostProcessor的子接口,增加了一个调用销毁函数前的回调<br>
  * Subinterface of {@link BeanPostProcessor} that adds a before-destruction callback.
- *
+ *<p> 典型的用法是调用特定bean类型的自定义销毁回调函数，匹配相应的初始化回调函数
  * <p>The typical usage will be to invoke custom destruction callbacks on
  * specific bean types, matching corresponding initialization callbacks.
  *
@@ -29,7 +29,7 @@ import org.springframework.beans.BeansException;
  */
 public interface DestructionAwareBeanPostProcessor extends BeanPostProcessor {
 
-	/**
+	/**在销毁之前将此BeanPostProcessor应用于给定的bean实例。 可以调用自定义销毁回调<br>
 	 * Apply this BeanPostProcessor to the given bean instance before
 	 * its destruction. Can invoke custom destruction callbacks.
 	 * <p>Like DisposableBean's {@code destroy} and a custom destroy method,

@@ -32,7 +32,7 @@ package org.springframework.beans.factory.config;
  */
 public interface SingletonBeanRegistry {
 
-	/**
+	/**在给定的bean名称下，将给定的现有对象注册为bean注册表中的单例<br>
 	 * Register the given existing object as singleton in the bean registry,
 	 * under the given bean name.
 	 * <p>The given instance is supposed to be fully initialized; the registry

@@ -63,14 +63,17 @@ public abstract class AbstractInterceptorDrivenBeanDefinitionDecorator implement
 		BeanDefinitionRegistry registry = parserContext.getRegistry();
 
 		// get the root bean name - will be the name of the generated proxy factory bean
+		//获取root bean的name-一般是代理生成的工厂bean的名称
 		String existingBeanName = definitionHolder.getBeanName();
 		BeanDefinition targetDefinition = definitionHolder.getBeanDefinition();
 		BeanDefinitionHolder targetHolder = new BeanDefinitionHolder(targetDefinition, existingBeanName + ".TARGET");
 
 		// delegate to subclass for interceptor definition
+		//委托给拦截器定义的子类
 		BeanDefinition interceptorDefinition = createInterceptorDefinition(node);
 
 		// generate name and register the interceptor
+		//生成并注册拦截器
 		String interceptorName = existingBeanName + "." + getInterceptorNameSuffix(interceptorDefinition);
 		BeanDefinitionReaderUtils.registerBeanDefinition(
 				new BeanDefinitionHolder(interceptorDefinition, interceptorName), registry);
@@ -79,8 +82,10 @@ public abstract class AbstractInterceptorDrivenBeanDefinitionDecorator implement
 
 		if (!isProxyFactoryBeanDefinition(targetDefinition)) {
 			// create the proxy definition
+			//创建代理 definition
 			RootBeanDefinition proxyDefinition = new RootBeanDefinition();
 			// create proxy factory bean definition
+			//创建代理工厂
 			proxyDefinition.setBeanClass(ProxyFactoryBean.class);
 			proxyDefinition.setScope(targetDefinition.getScope());
 			proxyDefinition.setLazyInit(targetDefinition.isLazyInit());

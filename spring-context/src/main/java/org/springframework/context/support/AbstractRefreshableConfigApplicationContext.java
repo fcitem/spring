@@ -111,7 +111,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 		return null;
 	}
 
-	/**
+	/**解析指定的path,用相应环境中的属性值替换占位符<br>
 	 * Resolve the given path, replacing placeholders with corresponding
 	 * environment property values if necessary. Applied to config locations.
 	 * @param path the original file path

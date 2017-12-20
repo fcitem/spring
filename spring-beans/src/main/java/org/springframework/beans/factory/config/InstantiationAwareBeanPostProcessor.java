@@ -21,7 +21,7 @@ import java.beans.PropertyDescriptor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
 
-/**
+/**BeanPostProcessor的子接口,添加了一个实例化之前的回调以及一个在实例化之后但在设置显式属性或自动装配之前的回调<br>
  * Subinterface of {@link BeanPostProcessor} that adds a before-instantiation callback,
  * and a callback after instantiation but before explicit properties are set or
  * autowiring occurs.
@@ -45,7 +45,7 @@ import org.springframework.beans.PropertyValues;
  */
 public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 
-	/**
+	/**在目标bean实例化之前应用这个BeanPostProcessor<br>
 	 * Apply this BeanPostProcessor <i>before the target bean gets instantiated</i>.
 	 * The returned bean object may be a proxy to use instead of the target bean,
 	 * effectively suppressing default instantiation of the target bean.
@@ -68,7 +68,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 */
 	Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException;
 
-	/**
+	/**在bean实例化之后，通过构造函数或工厂方法执行操作,但执行操作是在Spring属性人口（从显式属性或自动装配）发生之前<br>
 	 * Perform operations after the bean has been instantiated, via a constructor or factory method,
 	 * but before Spring property population (from explicit properties or autowiring) occurs.
 	 * <p>This is the ideal callback for performing field injection on the given bean instance.
@@ -84,7 +84,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 */
 	boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException;
 
-	/**
+	/**在工厂将它们应用于给定bean之前，后置处理给定的属性值。允许检查所有的依赖是否满足,例如基于@required的注解在bean属性的setters上<br>
 	 * Post-process the given property values before the factory applies them
 	 * to the given bean. Allows for checking whether all dependencies have been
 	 * satisfied, for example based on a "Required" annotation on bean property setters.

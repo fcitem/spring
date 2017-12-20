@@ -92,7 +92,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	ClassLoader getBeanClassLoader();
 
-	/**
+	/**指定一个临时ClassLoader用于类型匹配。 默认是none，只需使用标准的Bean ClassLoader即可。<br>
 	 * Specify a temporary ClassLoader to use for type matching purposes.
 	 * Default is none, simply using the standard bean ClassLoader.
 	 * <p>A temporary ClassLoader is usually just specified if
@@ -125,7 +125,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	boolean isCacheBeanMetadata();
 
-	/**
+	/**为bean definition中的表达式指定解析策略<br>
 	 * Specify the resolution strategy for expressions in bean definition values.
 	 * <p>There is no expression support active in a BeanFactory by default.
 	 * An ApplicationContext will typically set a standard expression strategy
@@ -153,7 +153,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	ConversionService getConversionService();
 
-	/**
+	/**添加一个PropertyEditorRegistrar,将被应用于所有的bean创建过程.<br>
 	 * Add a PropertyEditorRegistrar to be applied to all bean creation processes.
 	 * <p>Such a registrar creates new PropertyEditor instances and registers them
 	 * on the given registry, fresh for each bean creation attempt. This avoids
@@ -217,7 +217,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	String resolveEmbeddedValue(String value);
 
-	/**
+	/**增加一个BeanPostProcessor，它将应用到bean factory创建的bean中。在factory配置的过程中这个BeanPostProcessor将被调用<br>
 	 * Add a new BeanPostProcessor that will get applied to beans created
 	 * by this factory. To be invoked during factory configuration.
 	 * <p>Note: Post-processors submitted here will be applied in the order of

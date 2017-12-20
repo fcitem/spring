@@ -728,7 +728,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		this.methodOverrides = (methodOverrides != null ? methodOverrides : new MethodOverrides());
 	}
 
-	/**
+	/**返回将被ioc容器重写的方法信息<br>
 	 * Return information about methods to be overridden by the IoC
 	 * container. This will be empty if there are no method overrides.
 	 * Never returns {@code null}.
@@ -909,11 +909,12 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 				((BeanDefinitionResource) this.resource).getBeanDefinition() : null);
 	}
 
-	/**
+	/**验证BeanDefinition<br>
 	 * Validate this bean definition.
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
 	public void validate() throws BeanDefinitionValidationException {
+		//方法重写集合不为空且静态工厂方法不为空
 		if (!getMethodOverrides().isEmpty() && getFactoryMethodName() != null) {
 			throw new BeanDefinitionValidationException(
 					"Cannot combine static factory method with method overrides: " +
@@ -921,11 +922,12 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		}
 
 		if (hasBeanClass()) {
+			//准备方法重写
 			prepareMethodOverrides();
 		}
 	}
 
-	/**
+	/**验证且准备bean的方法重写,检查指定名字的方法是否存在<br>
 	 * Validate and prepare the method overrides defined for this bean.
 	 * Checks for existence of a method with the specified name.
 	 * @throws BeanDefinitionValidationException in case of validation failure
@@ -943,7 +945,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		}
 	}
 
-	/**
+	/**验证且准备bean的方法重写,检查指定名字的方法是否存在<br>
 	 * Validate and prepare the given method override.
 	 * Checks for existence of a method with the specified name,
 	 * marking it as not overloaded if none found.
@@ -951,6 +953,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
 	protected void prepareMethodOverride(MethodOverride mo) throws BeanDefinitionValidationException {
+		//反射获取指定方法的数量
 		int count = ClassUtils.getMethodCountForName(getBeanClass(), mo.getMethodName());
 		if (count == 0) {
 			throw new BeanDefinitionValidationException(
@@ -959,6 +962,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		}
 		else if (count == 1) {
 			// Mark override as not overloaded, to avoid the overhead of arg type checking.
+			//标记重写为不重载，以避免arg类型检查的开销
 			mo.setOverloaded(false);
 		}
 	}

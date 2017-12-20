@@ -687,7 +687,7 @@ public abstract class ClassUtils {
 		}
 	}
 
-	/**
+	/**返回给定类(包括子类)中包括指定名称(包含任何参数类型)的方法数量,其中包括非public方法<br>
 	 * Return the number of methods with a given name (with any argument types),
 	 * for the given class and/or its superclasses. Includes non-public methods.
 	 * @param clazz	the clazz to check

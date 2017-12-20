@@ -92,7 +92,7 @@ public interface ConfigurablePropertyResolver extends PropertyResolver {
 	 */
 	void setRequiredProperties(String... requiredProperties);
 
-	/**
+	/**验证由setRequiredProperties指定的每个属性是否存在并解析为非空值<br>
 	 * Validate that each of the properties specified by
 	 * {@link #setRequiredProperties} is present and resolves to a
 	 * non-{@code null} value.

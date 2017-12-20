@@ -26,7 +26,8 @@ import org.springframework.core.SmartClassLoader;
 import org.springframework.lang.UsesJava7;
 import org.springframework.util.ReflectionUtils;
 
-/**
+/**重写classloader的特殊变体,用于AbstractApplicationContext中临时类型的匹配<br>
+ * 重定义来自于一个缓存的字节数组中的classses,以便在父ClassLoader中得到最近加载的类型<p>
  * Special variant of an overriding ClassLoader, used for temporary type
  * matching in {@link AbstractApplicationContext}. Redefines classes from
  * a cached byte array for every {@code loadClass} call in order to

@@ -18,7 +18,7 @@ package org.springframework.beans;
 
 import java.beans.PropertyEditor;
 
-/**
+/**封装注册JavaBeans(PropertyEditors)的方法.这是PropertyEditorRegistrar运行的中心接口<br>
  * Encapsulates methods for registering JavaBeans {@link PropertyEditor PropertyEditors}.
  * This is the central interface that a {@link PropertyEditorRegistrar} operates on.
  *

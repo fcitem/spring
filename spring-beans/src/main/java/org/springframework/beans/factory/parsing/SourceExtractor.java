@@ -18,7 +18,7 @@ package org.springframework.beans.factory.parsing;
 
 import org.springframework.core.io.Resource;
 
-/**简单的策略允许工具控制怎样将元数据附加到bean definition
+/**简单的策略允许工具控制怎样将元数据附加到bean definition<br>
  * Simple strategy allowing tools to control how source metadata is attached
  * to the bean definition metadata.
  *

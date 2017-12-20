@@ -23,7 +23,7 @@ import org.springframework.lang.UsesJava7;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-/**
+/**用于装饰ClassLoaders的基类,例如OverridingClassLoader和ShadowingClassLoader。提供了排除包和classes的通用处理<br>
  * Base class for decorating ClassLoaders such as {@link OverridingClassLoader}
  * and {@link org.springframework.instrument.classloading.ShadowingClassLoader},
  * providing common handling of excluded packages and classes.

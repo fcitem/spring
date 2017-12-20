@@ -135,7 +135,7 @@ public class BeanDefinitionReaderUtils {
 		return id;
 	}
 
-	/**
+	/**在给定的bean工厂总注册指定的bean definition<br>
 	 * Register the given bean definition with the given bean factory.
 	 * @param definitionHolder the bean definition including name and aliases
 	 * @param registry the bean factory to register with
@@ -153,6 +153,7 @@ public class BeanDefinitionReaderUtils {
 		String[] aliases = definitionHolder.getAliases();
 		if (aliases != null) {
 			for (String alias : aliases) {
+				//根据别名注册bean,跟registerBeanDefinition类似
 				registry.registerAlias(beanName, alias);
 			}
 		}

@@ -200,7 +200,7 @@ public abstract class AbstractRefreshableWebApplicationContext extends AbstractR
 		//返回上下文中的配置环境
 		ConfigurableEnvironment env = getEnvironment();
 		if (env instanceof ConfigurableWebEnvironment) {
-			//在真正的上下文实例中用配置属性替换同名的占位符，例如${name}
+			//在真正的上下文实例中用配置属性替换同名的占位符，例如${name},并初始化一组PropertySource加入context
 			((ConfigurableWebEnvironment) env).initPropertySources(this.servletContext, this.servletConfig);
 		}
 	}

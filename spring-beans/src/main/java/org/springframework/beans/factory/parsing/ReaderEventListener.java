@@ -29,27 +29,27 @@ import java.util.EventListener;
  */
 public interface ReaderEventListener extends EventListener {
 
-	/**
+	/**通知给定的defaultsDefinition已被注册<br>
 	 * Notification that the given defaults has been registered.
 	 * @param defaultsDefinition a descriptor for the defaults
 	 * @see org.springframework.beans.factory.xml.DocumentDefaultsDefinition
 	 */
 	void defaultsRegistered(DefaultsDefinition defaultsDefinition);
 
-	/**
+	/**通知给定的componentDefinition已被注册<br>
 	 * Notification that the given component has been registered.
 	 * @param componentDefinition a descriptor for the new component
 	 * @see BeanComponentDefinition
 	 */
 	void componentRegistered(ComponentDefinition componentDefinition);
 
-	/**
+	/**通知给定的aliasDefinition已被注册<br>
 	 * Notification that the given alias has been registered.
 	 * @param aliasDefinition a descriptor for the new alias
 	 */
 	void aliasRegistered(AliasDefinition aliasDefinition);
 
-	/**
+	/**通知给定的importDefinition已被注册<br>
 	 * Notification that the given import has been processed.
 	 * @param importDefinition a descriptor for the import
 	 */

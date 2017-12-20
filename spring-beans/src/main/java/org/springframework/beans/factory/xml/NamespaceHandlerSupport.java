@@ -88,7 +88,7 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 		return parser;
 	}
 
-	/**通过已经注册给Node的handler也就是BeanDefinitionDecorator的代理装饰指定的Node<br>
+	/**通过已经注册给Node的指定处理该节点的BeanDefinitionDecorator的代理来进一步处理指定的Node<br>
 	 * Decorates the supplied {@link Node} by delegating to the {@link BeanDefinitionDecorator} that
 	 * is registered to handle that {@link Node}.
 	 */
@@ -99,7 +99,7 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 		return findDecoratorForNode(node, parserContext).decorate(node, definition, parserContext);
 	}
 
-	/**从使用的Node提供的本地name注册的实现中定位BeanDefinitionParser<br>
+	/**使用Node提供的本地name注册的实现中定位BeanDefinitionParser<br>
 	 * Locates the {@link BeanDefinitionParser} from the register implementations using
 	 * the local name of the supplied {@link Node}. Supports both {@link Element Elements}
 	 * and {@link Attr Attrs}.
@@ -108,9 +108,11 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 		BeanDefinitionDecorator decorator = null;
 		//获取node的local名字
 		String localName = parserContext.getDelegate().getLocalName(node);
+		//element
 		if (node instanceof Element) {
 			decorator = this.decorators.get(localName);
 		}
+		//Attr
 		else if (node instanceof Attr) {
 			decorator = this.attributeDecorators.get(localName);
 		}

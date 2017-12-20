@@ -27,7 +27,7 @@ import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.util.Assert;
 
-/**
+/**一个根bean definition,代表了在运行时支持Spring BeanFactory中一个特定bean的合并的bean definition。 它可能是由多个彼此继承的原始bean定义创建的，通常注册为GenericBeanDefinitions,一个根bean definition本质上是运行时的“统一的”bean定义视图<br>
  * A root bean definition represents the merged bean definition that backs
  * a specific bean in a Spring BeanFactory at runtime. It might have been created
  * from multiple original bean definitions that inherit from each other,

@@ -108,7 +108,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	//快速失败
 	private ProblemReporter problemReporter = new FailFastProblemReporter();
-
+    //事件监听器,默认是
 	private ReaderEventListener eventListener = new EmptyReaderEventListener();
 
 	private SourceExtractor sourceExtractor = new NullSourceExtractor();
@@ -127,7 +127,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			new NamedThreadLocal<Set<EncodedResource>>("XML bean definition resources currently being loaded");
 
 
-	/**
+	/**为给定的bean factory创建一个XmlBeanDefinitionReader<br>
 	 * Create new XmlBeanDefinitionReader for the given bean factory.
 	 * @param registry the BeanFactory to load bean definitions into,
 	 * in the form of a BeanDefinitionRegistry

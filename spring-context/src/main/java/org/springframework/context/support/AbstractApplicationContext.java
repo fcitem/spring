@@ -206,12 +206,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private final Set<ApplicationListener<?>> applicationListeners = new LinkedHashSet<ApplicationListener<?>>();
 
 	/** ApplicationEvents published early */
+	/** 提前发布ApplicationEvents*/
 	private Set<ApplicationEvent> earlyApplicationEvents;
 
 
 	/**
-	 * Create a new AbstractApplicationContext with no parent.
-	 * 创建一个没有parent的AbstractApplicationContext，初始化里面的resourcePatternResolver
+	 * Create a new AbstractApplicationContext with no parent.<br>
+	 * 创建一个没有parent的AbstractApplicationContext，并初始化resourcePatternResolver
 	 */
 	public AbstractApplicationContext() {
 		this.resourcePatternResolver = getResourcePatternResolver();
@@ -281,7 +282,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return this.parent;
 	}
 
-	/**
+	/**返回一个StandardEnvironment,在创建的同时会初始化一组PropertySource加入context<br>
 	 * {@inheritDoc}
 	 * <p>If {@code null}, a new environment will be initialized via
 	 * {@link #createEnvironment()}.
@@ -422,7 +423,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return this.lifecycleProcessor;
 	}
 
-	/**返回资源解析器(ResourcePatternResolver)以为了将用某种规则表示的配置文件解析为资源实例
+	/**返回资源解析器(ResourcePatternResolver)以为了将用某种规则表示的配置文件解析为资源实例<br>
 	 * Return the ResourcePatternResolver to use for resolving location patterns
 	 * into Resource instances. Default is a
 	 * {@link org.springframework.core.io.support.PathMatchingResourcePatternResolver},
@@ -497,12 +498,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return this.applicationListeners;
 	}
 
-	/**
+	/**返回一个创建的StandardEnvironment实例<br>
 	 * Create and return a new {@link StandardEnvironment}.
 	 * <p>Subclasses may override this method in order to supply
 	 * a custom {@link ConfigurableEnvironment} implementation.
 	 */
 	protected ConfigurableEnvironment createEnvironment() {
+		//在创建的同时会初始化一组PropertySource加入context,具体见父类构造器
 		return new StandardEnvironment();
 	}
 
@@ -514,7 +516,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
-			//准备刷新内部bean工厂
+			//准备刷新内部bean工厂,这个阶段会把beandefinition注册放入BeanFactory的相应集合中(beanDefinitionNames，manualSingletonNames，beanDefinitionMap)
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
@@ -576,7 +578,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 	}
 
-	/**
+	/**容器刷新的准备工作,包括设置启动时间,active标志以及任何属性源的初始化<br>
 	 * Prepare this context for refreshing, setting its startup date and
 	 * active flag as well as performing any initialization of property sources.
 	 */
@@ -604,7 +606,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		this.earlyApplicationEvents = new LinkedHashSet<ApplicationEvent>();
 	}
 
-	/**
+	/**用实际实例替换任何一个property sources存根<br>
 	 * <p>Replace any stub property sources with actual instances.
 	 * @see org.springframework.core.env.PropertySource.StubPropertySource
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#initServletPropertySources
@@ -629,7 +631,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return beanFactory;
 	}
 
-	/**
+	/**配置工厂的标准上下文属性<br>
 	 * Configure the factory's standard context characteristics,
 	 * such as the context's ClassLoader and post-processors.
 	 * @param beanFactory the BeanFactory to configure
@@ -637,10 +639,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 		// Tell the internal bean factory to use the context's class loader etc.
 		beanFactory.setBeanClassLoader(getClassLoader());
+		//为bean definition中的表达式指定解析策略
 		beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
+		//添加属性编辑器
 		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
 		// Configure the bean factory with context callbacks.
+		//使用上下文回调来配置bean工厂
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 		beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
 		beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
@@ -660,10 +665,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
 			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
 			// Set a temporary ClassLoader for type matching.
+			//设置类型匹配的临时ClassLoader
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
 		}
 
 		// Register default environment beans.
+		//注册默认的environment bean
 		if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
 			beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
 		}

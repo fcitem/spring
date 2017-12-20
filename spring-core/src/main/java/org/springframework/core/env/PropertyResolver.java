@@ -107,7 +107,7 @@ public interface PropertyResolver {
 	 */
 	String resolvePlaceholders(String text);
 
-	/**
+	/**在给定文本中解析$ {...}占位符，用getProperty解析得到的相应属性值替换它们<br>
 	 * Resolve ${...} placeholders in the given text, replacing them with corresponding
 	 * property values as resolved by {@link #getProperty}. Unresolvable placeholders with
 	 * no default value will cause an IllegalArgumentException to be thrown.

@@ -16,7 +16,7 @@
 
 package org.springframework.beans;
 
-/**
+/**注册自定义属性编辑器的策略接口<br>
  * Interface for strategies that register custom
  * {@link java.beans.PropertyEditor property editors} with a
  * {@link org.springframework.beans.PropertyEditorRegistry property editor registry}.
@@ -32,7 +32,7 @@ package org.springframework.beans;
  */
 public interface PropertyEditorRegistrar {
 
-	/**
+	/**在给定的{@code PropertyEditorRegistry}中注册自定义的属性编辑器<br>
 	 * Register custom {@link java.beans.PropertyEditor PropertyEditors} with
 	 * the given {@code PropertyEditorRegistry}.
 	 * <p>The passed-in registry will usually be a {@link BeanWrapper} or a

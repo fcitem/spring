@@ -69,7 +69,7 @@ public class LoadTimeWeaverAwareProcessor implements BeanPostProcessor, BeanFact
 		this.loadTimeWeaver = loadTimeWeaver;
 	}
 
-	/**
+	/**创建一个新的LoadTimeWeaverAwareProcessor<br>
 	 * Create a new {@code LoadTimeWeaverAwareProcessor}.
 	 * <p>The {@code LoadTimeWeaver} will be auto-retrieved from
 	 * the given {@link BeanFactory}, expecting a bean named

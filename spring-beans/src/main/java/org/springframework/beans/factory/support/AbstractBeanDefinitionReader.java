@@ -82,6 +82,7 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 		this.registry = registry;
 
 		// Determine ResourceLoader to use.
+		//初始化ResourceLoader
 		if (this.registry instanceof ResourceLoader) {
 			this.resourceLoader = (ResourceLoader) this.registry;
 		}
@@ -189,7 +190,7 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 		return loadBeanDefinitions(location, null);
 	}
 
-	/**从指定的location加载bean definition。第二个参数存已经被解析过的资源<br>
+	/**从指定的location加载bean definition。第二个参数用来保存已经被解析过的资源<br>
 	 * Load bean definitions from the specified resource location.
 	 * <p>The location can also be a location pattern, provided that the
 	 * ResourceLoader of this bean definition reader is a ResourcePatternResolver.
