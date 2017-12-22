@@ -71,7 +71,7 @@ public interface WebApplicationContext extends ApplicationContext {
 	 */
 	String SCOPE_GLOBAL_SESSION = "globalSession";
 
-	/**
+	/**全局web作用域的标识符,默认实现是servletContext的包装类<br>
 	 * Scope identifier for the global web application scope: "application".
 	 * Supported in addition to the standard scopes "singleton" and "prototype".
 	 */

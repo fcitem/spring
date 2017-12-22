@@ -152,7 +152,7 @@ public abstract class AbstractRefreshableWebApplicationContext extends AbstractR
 		return new StandardServletEnvironment();
 	}
 
-	/**
+	/**注册request/session域,ServletContextAwareProcessor等<br>
 	 * Register request/session scopes, a {@link ServletContextAwareProcessor}, etc.
 	 */
 	@Override
@@ -165,7 +165,7 @@ public abstract class AbstractRefreshableWebApplicationContext extends AbstractR
 		WebApplicationContextUtils.registerEnvironmentBeans(beanFactory, this.servletContext, this.servletConfig);
 	}
 
-	/**
+	/**代码
 	 * This implementation supports file paths beneath the root of the ServletContext.
 	 * @see ServletContextResource
 	 */

@@ -19,7 +19,7 @@ package org.springframework.context;
 import org.springframework.beans.factory.Aware;
 import org.springframework.core.io.ResourceLoader;
 
-/**
+/**如果对象希望其运行中的ResourceLoader(通常是在上下文中)能够收到通知,应该实现这个接口<br>
  * Interface to be implemented by any object that wishes to be notified of
  * the <b>ResourceLoader</b> (typically the ApplicationContext) that it runs in.
  * This is an alternative to a full ApplicationContext dependency via the

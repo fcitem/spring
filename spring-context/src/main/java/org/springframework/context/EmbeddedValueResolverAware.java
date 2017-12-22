@@ -19,7 +19,7 @@ package org.springframework.context;
 import org.springframework.beans.factory.Aware;
 import org.springframework.util.StringValueResolver;
 
-/**
+/**一个对象能被StringValueResolver通知解决内嵌定义值实现的接口<br>
  * Interface to be implemented by any object that wishes to be notified of a
  * <b>StringValueResolver</b> for the <b> resolution of embedded definition values.
  *

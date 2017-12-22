@@ -217,7 +217,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	String resolveEmbeddedValue(String value);
 
-	/**增加一个BeanPostProcessor，它将应用到bean factory创建的bean中。在factory配置的过程中这个BeanPostProcessor将被调用<br>
+	/**增加一个BeanPostProcessor,它将应用到bean factory创建的bean中.在factory配置的过程中这个BeanPostProcessor将被调用<br>
 	 * Add a new BeanPostProcessor that will get applied to beans created
 	 * by this factory. To be invoked during factory configuration.
 	 * <p>Note: Post-processors submitted here will be applied in the order of
@@ -234,13 +234,13 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	int getBeanPostProcessorCount();
 
-	/**
+	/**注册给定的scope(域),由给定的scope实现提供支持<br>
 	 * Register the given scope, backed by the given Scope implementation.
 	 * @param scopeName the scope identifier
 	 * @param scope the backing Scope implementation
 	 */
-	void registerScope(String scopeName, Scope scope);
 
+	void registerScope(String scopeName, Scope scope);
 	/**
 	 * Return the names of all currently registered scopes.
 	 * <p>This will only return the names of explicitly registered scopes.

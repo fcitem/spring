@@ -46,7 +46,7 @@ import org.springframework.core.OrderComparator;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
-/**代理AbstractApplicationContext's后置处理器<br>
+/**AbstractApplicationContext's后置处理器的代理类<br>
  * Delegate for AbstractApplicationContext's post-processor handling.
  *
  * @author Juergen Hoeller
@@ -62,7 +62,9 @@ class PostProcessorRegistrationDelegate {
 
 		if (beanFactory instanceof BeanDefinitionRegistry) {
 			BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
+			//普通bean后置处理器列表
 			List<BeanFactoryPostProcessor> regularPostProcessors = new LinkedList<BeanFactoryPostProcessor>();
+			//注册表后置处理器列表
 			List<BeanDefinitionRegistryPostProcessor> registryPostProcessors =
 					new LinkedList<BeanDefinitionRegistryPostProcessor>();
 
@@ -77,7 +79,7 @@ class PostProcessorRegistrationDelegate {
 					regularPostProcessors.add(postProcessor);
 				}
 			}
-             //这儿不初始化，我们需要保持所有的regular beans未初始化，让bean factory后置处理器进行处理<br>
+             //这儿不初始化,我们需要保持所有的regular beans未初始化,让bean factory后置处理器进行处理<br>
 			// Do not initialize FactoryBeans here: We need to leave all regular beans
 			// uninitialized to let the bean factory post-processors apply to them!
 			// Separate between BeanDefinitionRegistryPostProcessors that implement

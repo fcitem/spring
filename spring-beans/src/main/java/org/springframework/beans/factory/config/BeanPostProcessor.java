@@ -18,10 +18,10 @@ package org.springframework.beans.factory.config;
 
 import org.springframework.beans.BeansException;
 
-/**
+/**允许自定义修改新的bean实例,例如 检查标记接口或用代理包装它们<br>
  * Factory hook that allows for custom modification of new bean instances,
  * e.g. checking for marker interfaces or wrapping them with proxies.
- *
+ *<p>ApplicationContexts可以在其bean定义中自动检测BeanPostProcessor bean，并将它们应用于随后创建的任何bean
  * <p>ApplicationContexts can autodetect BeanPostProcessor beans in their
  * bean definitions and apply them to any beans subsequently created.
  * Plain bean factories allow for programmatic registration of post-processors,

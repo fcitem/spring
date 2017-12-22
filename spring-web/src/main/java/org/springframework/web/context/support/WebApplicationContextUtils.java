@@ -169,13 +169,14 @@ public abstract class WebApplicationContextUtils {
 		registerWebApplicationScopes(beanFactory, null);
 	}
 
-	/**
+	/**在BeanFactory中注册web特定的作用域("request", "session", "globalSession", "application")<br>
 	 * Register web-specific scopes ("request", "session", "globalSession", "application")
 	 * with the given BeanFactory, as used by the WebApplicationContext.
 	 * @param beanFactory the BeanFactory to configure
 	 * @param sc the ServletContext that we're running within
 	 */
 	public static void registerWebApplicationScopes(ConfigurableListableBeanFactory beanFactory, ServletContext sc) {
+		//将作用域的标识符和实现类放入bean factory的map中注册
 		beanFactory.registerScope(WebApplicationContext.SCOPE_REQUEST, new RequestScope());
 		beanFactory.registerScope(WebApplicationContext.SCOPE_SESSION, new SessionScope(false));
 		beanFactory.registerScope(WebApplicationContext.SCOPE_GLOBAL_SESSION, new SessionScope(true));
@@ -205,7 +206,7 @@ public abstract class WebApplicationContextUtils {
 		registerEnvironmentBeans(bf, sc, null);
 	}
 
-	/**
+	/**在给定的beanfactory里面注册web特有的环境bean("contextParameters", "contextAttributes")<br>
 	 * Register web-specific environment beans ("contextParameters", "contextAttributes")
 	 * with the given BeanFactory, as used by the WebApplicationContext.
 	 * @param bf the BeanFactory to configure
@@ -214,24 +215,30 @@ public abstract class WebApplicationContextUtils {
 	 */
 	public static void registerEnvironmentBeans(
 			ConfigurableListableBeanFactory bf, ServletContext servletContext, ServletConfig servletConfig) {
-
+        //是否包含servlerContext这个bean
 		if (servletContext != null && !bf.containsBean(WebApplicationContext.SERVLET_CONTEXT_BEAN_NAME)) {
+			//将servletContext注册为这个factory的servletContext环境bean
 			bf.registerSingleton(WebApplicationContext.SERVLET_CONTEXT_BEAN_NAME, servletContext);
 		}
 
 		if (servletConfig != null && !bf.containsBean(ConfigurableWebApplicationContext.SERVLET_CONFIG_BEAN_NAME)) {
+			//将servletConfig注册为这个factory的servletConfig环境bean
 			bf.registerSingleton(ConfigurableWebApplicationContext.SERVLET_CONFIG_BEAN_NAME, servletConfig);
 		}
 
 		if (!bf.containsBean(WebApplicationContext.CONTEXT_PARAMETERS_BEAN_NAME)) {
+			//存放initParamters的map
 			Map<String, String> parameterMap = new HashMap<String, String>();
+			//servletContext作为全局容器
 			if (servletContext != null) {
+				//获取servlet的initParamters参数(web.xml中配置在init-param中的参数)
 				Enumeration<?> paramNameEnum = servletContext.getInitParameterNames();
 				while (paramNameEnum.hasMoreElements()) {
 					String paramName = (String) paramNameEnum.nextElement();
 					parameterMap.put(paramName, servletContext.getInitParameter(paramName));
 				}
 			}
+			//servletConfing只对特定servlet的有效配置,一个Servlet对应一个servletConfig
 			if (servletConfig != null) {
 				Enumeration<?> paramNameEnum = servletConfig.getInitParameterNames();
 				while (paramNameEnum.hasMoreElements()) {
@@ -239,6 +246,7 @@ public abstract class WebApplicationContextUtils {
 					parameterMap.put(paramName, servletConfig.getInitParameter(paramName));
 				}
 			}
+			//将contextParameters注册为这个factory的contextParameters环境属性
 			bf.registerSingleton(WebApplicationContext.CONTEXT_PARAMETERS_BEAN_NAME,
 					Collections.unmodifiableMap(parameterMap));
 		}
@@ -252,6 +260,7 @@ public abstract class WebApplicationContextUtils {
 					attributeMap.put(attrName, servletContext.getAttribute(attrName));
 				}
 			}
+			//将attributeMap注册为这个factory的contextAttributes环境属性
 			bf.registerSingleton(WebApplicationContext.CONTEXT_ATTRIBUTES_BEAN_NAME,
 					Collections.unmodifiableMap(attributeMap));
 		}
@@ -314,7 +323,7 @@ public abstract class WebApplicationContextUtils {
 	}
 
 
-	/**
+	/**根据需要,返回当前请求对象的工厂<br>
 	 * Factory that exposes the current request object on demand.
 	 */
 	@SuppressWarnings("serial")
@@ -332,7 +341,7 @@ public abstract class WebApplicationContextUtils {
 	}
 
 
-	/**
+	/**根据需要,返回当前相应对象的工厂<br>
 	 * Factory that exposes the current response object on demand.
 	 */
 	@SuppressWarnings("serial")
@@ -355,7 +364,7 @@ public abstract class WebApplicationContextUtils {
 	}
 
 
-	/**
+	/**根据需要,返回当前session对象的工厂<br>
 	 * Factory that exposes the current session object on demand.
 	 */
 	@SuppressWarnings("serial")
@@ -373,7 +382,7 @@ public abstract class WebApplicationContextUtils {
 	}
 
 
-	/**
+	/**根据需要,返回当前WebRequest(包括request和response)对象的工厂<br>
 	 * Factory that exposes the current WebRequest object on demand.
 	 */
 	@SuppressWarnings("serial")

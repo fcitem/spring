@@ -209,13 +209,16 @@ public interface BeanFactory {
 	<T> T getBean(Class<T> requiredType, Object... args) throws BeansException;
 
 
-	/**
+	/**检查这个bean工厂是否包含一个bean定义或者具有给定名字的外部注册的单例实例<br>
 	 * Does this bean factory contain a bean definition or externally registered singleton
 	 * instance with the given name?
 	 * <p>If the given name is an alias, it will be translated back to the corresponding
 	 * canonical bean name.
+	 * <p>如果找不到这个bean,将在父工厂中向上查找
 	 * <p>If this factory is hierarchical, will ask any parent factory if the bean cannot
 	 * be found in this factory instance.
+	 * <p>如果一个bean definition或者单例实例的名字匹配上了这个name,那么无论这个bean definition是具体还是抽象,懒加载还是立即初始化都将返回true.
+	 * 因此，请注意，来自此方法的真实返回值并不一定表示getBean将能够获取同名的实例
 	 * <p>If a bean definition or singleton instance matching the given name is found,
 	 * this method will return {@code true} whether the named bean definition is concrete
 	 * or abstract, lazy or eager, in scope or not. Therefore, note that a {@code true}

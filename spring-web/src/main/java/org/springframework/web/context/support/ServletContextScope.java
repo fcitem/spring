@@ -25,7 +25,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 import org.springframework.util.Assert;
 
-/**
+/**包装servletContext,即用于全局web上下文属性<br>
  * {@link Scope} wrapper for a ServletContext, i.e. for global web application attributes.
  *
  * <p>This differs from traditional Spring singletons in that it exposes attributes in the

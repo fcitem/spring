@@ -472,7 +472,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 
-	/**
+	/**返回将被应用到内部BeanFactory的BeanFactoryPostProcessors列表<br>
 	 * Return the list of BeanFactoryPostProcessors that will get applied
 	 * to the internal BeanFactory.
 	 */
@@ -525,7 +525,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
-				//允许在上下文子类中对bean factory进行后置处理
+				//在上下文子类中对bean factory进行后置处理设置
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
@@ -655,7 +655,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.ignoreDependencyInterface(ApplicationContextAware.class);
 
 		// BeanFactory interface not registered as resolvable type in a plain factory.
+		//在普通工厂里Beanfactory不被注册为可解析类型
 		// MessageSource registered (and found for autowiring) as a bean.
+		//MessageSource 被注册为一个bean
 		beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory);
 		beanFactory.registerResolvableDependency(ResourceLoader.class, this);
 		beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
@@ -682,7 +684,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 	}
 
-	/**
+	/**在标准初始化之后修改application context内部工厂bean,所有的bean都将被加载,但是没有bean被实例化<br>
 	 * Modify the application context's internal bean factory after its standard
 	 * initialization. All bean definitions will have been loaded, but no beans
 	 * will have been instantiated yet. This allows for registering special
@@ -692,7 +694,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 	}
 
-	/**
+	/**按照顺序实例化且调用所有被注册为BeanFactoryPostProcessor的bean<br>
 	 * Instantiate and invoke all registered BeanFactoryPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before singleton instantiation.
