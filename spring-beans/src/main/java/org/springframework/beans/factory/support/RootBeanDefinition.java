@@ -59,18 +59,22 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	final Object constructorArgumentLock = new Object();
 
 	/** Package-visible field for caching the resolved constructor or factory method */
+	/** 缓存factoryMethod或者解析过的构造器 */
 	Object resolvedConstructorOrFactoryMethod;
 
 	/** Package-visible field for caching the return type of a generically typed factory method */
 	volatile Class<?> resolvedFactoryMethodReturnType;
 
 	/** Package-visible field that marks the constructor arguments as resolved */
+	/** 标记构造器参数是否被解析过 */
 	boolean constructorArgumentsResolved = false;
 
 	/** Package-visible field for caching fully resolved constructor arguments */
+	/** 缓存完全解析过的构造器参数 */
 	Object[] resolvedConstructorArguments;
 
 	/** Package-visible field for caching partly prepared constructor arguments */
+	/** 缓存部分准备好的构造器参数 */
 	Object[] preparedConstructorArguments;
 
 	final Object postProcessingLock = new Object();

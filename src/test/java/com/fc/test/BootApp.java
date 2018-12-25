@@ -19,7 +19,10 @@ package com.fc.test;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
 
 /**
@@ -42,7 +45,10 @@ public class BootApp {
 	}
 	@Test
 	public void test2() {
+		BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource(""),null);
 		System.out.println(null instanceof Object);
+		//获取加载bean
+		beanFactory.getBean("test");
 	}
 
 }

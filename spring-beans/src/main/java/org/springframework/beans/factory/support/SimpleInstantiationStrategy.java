@@ -58,6 +58,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	@Override
 	public Object instantiate(RootBeanDefinition bd, String beanName, BeanFactory owner) {
 		// Don't override the class with CGLIB if no overrides.
+		//如果用户没有使用replace或者lookup配置,就可以直接使用反射的方式
 		if (bd.getMethodOverrides().isEmpty()) {
 			Constructor<?> constructorToUse;
 			synchronized (bd.constructorArgumentLock) {
@@ -90,6 +91,8 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 		}
 		else {
 			// Must generate CGLIB subclass.
+			//如果使用上面两个配置的话,就必须使用动态代理的方式将包含两个特性所对应逻辑的拦截增强器设置进去
+			// 这样才能保证在调用方法的时候会被相应的拦截器增强,返回值为包含拦截器的代理实例
 			return instantiateWithMethodInjection(bd, beanName, owner);
 		}
 	}

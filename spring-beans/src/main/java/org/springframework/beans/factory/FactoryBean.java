@@ -16,7 +16,7 @@
 
 package org.springframework.beans.factory;
 
-/**
+/**创建bean的工厂<b/>
  * Interface to be implemented by objects used within a {@link BeanFactory}
  * which are themselves factories. If a bean implements this interface,
  * it is used as a factory for an object to expose, not directly as a bean
@@ -52,7 +52,7 @@ package org.springframework.beans.factory;
  */
 public interface FactoryBean<T> {
 
-	/**
+	/**返回由factoryBean创建的bean实例,如果isSingleton为true,则加入单例缓存池<b/>
 	 * Return an instance (possibly shared or independent) of the object
 	 * managed by this factory.
 	 * <p>As with a {@link BeanFactory}, this allows support for both the
@@ -71,7 +71,7 @@ public interface FactoryBean<T> {
 	 */
 	T getObject() throws Exception;
 
-	/**
+	/**返回创建bean的对象类型<b/>
 	 * Return the type of object that this FactoryBean creates,
 	 * or {@code null} if not known in advance.
 	 * <p>This allows one to check for specific types of beans without
@@ -92,7 +92,7 @@ public interface FactoryBean<T> {
 	 */
 	Class<?> getObjectType();
 
-	/**
+	/**返回作用域scope是否是单例<b/>
 	 * Is the object managed by this factory a singleton? That is,
 	 * will {@link #getObject()} always return the same object
 	 * (a reference that can be cached)?
