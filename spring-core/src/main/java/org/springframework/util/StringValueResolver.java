@@ -28,7 +28,7 @@ package org.springframework.util;
  */
 public interface StringValueResolver {
 
-	/**
+	/**解析给定的字符串,例如解析占位符<br/>
 	 * Resolve the given String value, for example parsing placeholders.
 	 * @param strVal the original String value
 	 * @return the resolved String value

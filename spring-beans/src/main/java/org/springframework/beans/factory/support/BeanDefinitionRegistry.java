@@ -47,11 +47,11 @@ import org.springframework.core.AliasRegistry;
  */
 public interface BeanDefinitionRegistry extends AliasRegistry {
 
-	/**
+	/**使用注册表注册新的BeanDefinition<br/>
 	 * Register a new bean definition with this registry.
 	 * Must support RootBeanDefinition and ChildBeanDefinition.
-	 * @param beanName the name of the bean instance to register
-	 * @param beanDefinition definition of the bean instance to register
+	 * @param beanName 注册的bean的实例的名称
+	 * @param beanDefinition 注册的BeanDefinition的实例
 	 * @throws BeanDefinitionStoreException if the BeanDefinition is invalid
 	 * or if there is already a BeanDefinition for the specified bean name
 	 * (and we are not allowed to override it)
@@ -61,14 +61,14 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException;
 
-	/**
+	/**移除给定beanName对应的BeanDefinition<br/>
 	 * Remove the BeanDefinition for the given name.
 	 * @param beanName the name of the bean instance to register
 	 * @throws NoSuchBeanDefinitionException if there is no such bean definition
 	 */
 	void removeBeanDefinition(String beanName) throws NoSuchBeanDefinitionException;
 
-	/**
+	/**获取给定beanName对应的BeanDefinition<br/>
 	 * Return the BeanDefinition for the given bean name.
 	 * @param beanName name of the bean to find a definition for
 	 * @return the BeanDefinition for the given name (never {@code null})
@@ -76,27 +76,27 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	 */
 	BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException;
 
-	/**
+	/**确定给定beanName对应的BeanDefinition是否已经注册<br/>
 	 * Check if this registry contains a bean definition with the given name.
 	 * @param beanName the name of the bean to look for
 	 * @return if this registry contains a bean definition with the given name
 	 */
 	boolean containsBeanDefinition(String beanName);
 
-	/**
+	/**获取所有已经注册过的bean(BeanDefinition)的名字<br/>
 	 * Return the names of all beans defined in this registry.
 	 * @return the names of all beans defined in this registry,
 	 * or an empty array if none defined
 	 */
 	String[] getBeanDefinitionNames();
 
-	/**
+	/**获取已经注册过的bean(BeanDefinition)的数量<br/>
 	 * Return the number of beans defined in the registry.
 	 * @return the number of beans defined in the registry
 	 */
 	int getBeanDefinitionCount();
 
-	/**
+	/**确定给定beanName是否已经在注册表中被使用,即是否存在以此名称注册过的local bean或别名<br/>
 	 * Determine whether the given bean name is already in use within this registry,
 	 * i.e. whether there is a local bean or alias registered under this name.
 	 * @param beanName the name to check

@@ -18,7 +18,7 @@ package org.springframework.core.io;
 
 import org.springframework.util.ResourceUtils;
 
-/**
+/**定义资源加载器,根据指定的资源文件地址返回对应的Resource<br/>
  * Strategy interface for loading resources (e.. class path or file system
  * resources). An {@link org.springframework.context.ApplicationContext}
  * is required to provide this functionality, plus extended

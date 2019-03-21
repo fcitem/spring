@@ -35,44 +35,45 @@ public class XmlValidationModeDetector {
 
     /**
      * Indicates that the validation should be disabled.
+     * 禁用验证
      */
     public static final int VALIDATION_NONE = 0;
 
-    /**
+    /**自动猜测验证模式
      * Indicates that the validation mode should be auto-guessed, since we cannot find
      * a clear indication (probably choked on some special characters, or the like).
      */
     public static final int VALIDATION_AUTO = 1;
 
-    /**
+    /**DTD验证模式
      * Indicates that DTD validation should be used (we found a "DOCTYPE" declaration).
      */
     public static final int VALIDATION_DTD = 2;
 
-    /**
+    /**XSD验证模式
      * Indicates that XSD validation should be used (found no "DOCTYPE" declaration).
      */
     public static final int VALIDATION_XSD = 3;
 
 
-    /**
+    /**XML文档中的标记，声明用DTD验证
      * The token in a XML document that declares the DTD to use for validation
      * and thus that DTD validation is being used.
      */
     private static final String DOCTYPE = "DOCTYPE";
 
-    /**
+    /**标识XML文档开始符
      * The token that indicates the start of an XML comment.
      */
     private static final String START_COMMENT = "<!--";
 
-    /**
+    /**标识XML文档结束符
      * The token that indicates the end of an XML comment.
      */
     private static final String END_COMMENT = "-->";
 
 
-    /**
+    /**当前解析位置是否在XML注释内
      * Indicates whether or not the current parse position is inside an XML comment.
      */
     private boolean inComment;
@@ -128,7 +129,7 @@ public class XmlValidationModeDetector {
         return content.contains(DOCTYPE);
     }
 
-    /**
+    /**提供的内容是否包含XML开始标记<br/>
      * Does the supplied content contain an XML opening tag. If the parse state is currently
      * in an XML comment then this method always returns false. It is expected that all comment
      * tokens will have consumed for the supplied content before passing the remainder to this method.
@@ -142,7 +143,7 @@ public class XmlValidationModeDetector {
                 Character.isLetter(content.charAt(openTagIndex + 1)));
     }
 
-    /**
+    /**使用给定字符串中的所有前导注释数据并返回其余内容<br/>
      * Consumes all the leading comment data in the given String and returns the remaining content, which
      * may be empty since the supplied content might be all comment data. For our purposes it is only important
      * to strip leading comment content on a line since the first piece of non comment content will be either

@@ -68,6 +68,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     /**
      * Indicates that the validation should be disabled.
+     * 禁用验证
      */
     public static final int VALIDATION_NONE = XmlValidationModeDetector.VALIDATION_NONE;
 
@@ -106,7 +107,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private SourceExtractor sourceExtractor = new NullSourceExtractor();
 
     private NamespaceHandlerResolver namespaceHandlerResolver;
-
+    /**
+     * 定义从资源文件加载到转换为Document的功能
+     */
     private DocumentLoader documentLoader = new DefaultDocumentLoader();
 
     private EntityResolver entityResolver;
@@ -115,6 +118,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
 
+    /**缓存当前开始加载的XMLBeanDefinition 资源*/
     private final ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded =
             new NamedThreadLocal<Set<EncodedResource>>("XML bean definition resources currently being loaded");
 
@@ -181,7 +185,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         this.namespaceAware = namespaceAware;
     }
 
-    /**
+    /**xml解析器是否应该支持XMl命名空间<br/>
      * Return whether or not the XML parser should be XML namespace aware.
      */
     public boolean isNamespaceAware() {
@@ -317,7 +321,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         if (logger.isInfoEnabled()) {
             logger.info("Loading XML bean definitions from " + encodedResource.getResource());
         }
-        //通过属性来记录已经加载的Resource(一个配置文件对应于一个Resource)
+        //通过属性来记录已经加载的Resource资源(一个配置文件对应于一个Resource)
         Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
         if (currentResources == null) {
             currentResources = new HashSet<EncodedResource>(4);
@@ -335,7 +339,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 if (encodedResource.getEncoding() != null) {
                     inputSource.setEncoding(encodedResource.getEncoding());
                 }
-                //从xml中真正加载bean definition
+                //从xml中真正加载bean definition的逻辑核心部分
                 return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
             } finally {
                 inputStream.close();
@@ -433,7 +437,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 
     /**
-     * 获取xml的验证模式
+     * 获取xml的验证模式<br/>
      * Gets the validation mode for the specified {@link Resource}. If no explicit
      * validation mode has been configured then the validation mode is
      * {@link #detectValidationMode detected}.
@@ -512,6 +516,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         int countBefore = getRegistry().getBeanDefinitionCount();
         //从给定的DOM中读取bean definition并在给定的readerContext中注册它们
         //加载及注册bean
+        //将逻辑处理委托给单一的类(BeanDefinitionDocumentReader)进行处理
         documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
         //返回本次加载的BeanDefinition个数
         return getRegistry().getBeanDefinitionCount() - countBefore;

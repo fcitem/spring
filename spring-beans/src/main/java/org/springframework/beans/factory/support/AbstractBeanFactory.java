@@ -16,68 +16,22 @@
 
 package org.springframework.beans.factory.support;
 
-import java.beans.PropertyEditor;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.PropertyEditorRegistrar;
-import org.springframework.beans.PropertyEditorRegistry;
-import org.springframework.beans.PropertyEditorRegistrySupport;
-import org.springframework.beans.SimpleTypeConverter;
-import org.springframework.beans.TypeConverter;
-import org.springframework.beans.TypeMismatchException;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.BeanCurrentlyInCreationException;
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.beans.factory.BeanIsAbstractException;
-import org.springframework.beans.factory.BeanIsNotAFactoryException;
-import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.SmartFactoryBean;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.BeanDefinitionHolder;
-import org.springframework.beans.factory.config.BeanExpressionContext;
-import org.springframework.beans.factory.config.BeanExpressionResolver;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
-import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
-import org.springframework.beans.factory.config.Scope;
+import org.springframework.beans.*;
+import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.config.*;
 import org.springframework.core.DecoratingClassLoader;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.util.StringValueResolver;
+import org.springframework.util.*;
+
+import java.beans.PropertyEditor;
+import java.security.*;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 综合FactoryBeanRegistrySupport和ConfigurableBeanFactory的功能<br/>
  * Abstract base class for {@link org.springframework.beans.factory.BeanFactory}
  * implementations, providing the full capabilities of the
  * {@link org.springframework.beans.factory.config.ConfigurableBeanFactory} SPI.
@@ -112,7 +66,7 @@ import org.springframework.util.StringValueResolver;
  */
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
-    /**
+    /**父BeanFactory,用于bean的继承支持<br/>
      * Parent bean factory, for bean inheritance support
      */
     private BeanFactory parentBeanFactory;
@@ -128,17 +82,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      */
     private ClassLoader tempClassLoader;
 
-    /**
+    /**是否缓存bean元数据，或者为每次访问重新获取它<br/>
      * Whether to cache bean metadata or rather reobtain it for every access
      */
     private boolean cacheBeanMetadata = true;
 
-    /**
+    /**Bean定义中表达式的解析策略<br/>
      * Resolution strategy for expressions in bean definition values
      */
     private BeanExpressionResolver beanExpressionResolver;
 
-    /**
+    /**类型转换,判断是否能够类型转换,可以的话就转化<br/>
      * Spring ConversionService to use instead of PropertyEditors
      */
     private ConversionService conversionService;
@@ -150,7 +104,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     private final Set<PropertyEditorRegistrar> propertyEditorRegistrars =
             new LinkedHashSet<PropertyEditorRegistrar>(4);
 
-    /**
+    /**一个自定义的TypeConverter<br/>
      * A custom TypeConverter to use, overriding the default PropertyEditor mechanism
      */
     private TypeConverter typeConverter;
@@ -161,23 +115,23 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     private final Map<Class<?>, Class<? extends PropertyEditor>> customEditors =
             new HashMap<Class<?>, Class<? extends PropertyEditor>>(4);
 
-    /**
+    /**应用的String解析器,例如解析annotation属性值<br/>
      * String resolvers to apply e.g. to annotation attribute values
      */
     private final List<StringValueResolver> embeddedValueResolvers = new LinkedList<StringValueResolver>();
 
-    /**
+    /**在创建bean的时候应用的BeanPostProcessors列表<br/>
      * BeanPostProcessors to apply in createBean
      */
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
     /** Indicates whether any InstantiationAwareBeanPostProcessors have been registered */
     /**
-     * 表示是否有任何InstantiationAwareBeanPostProcessor已被注册
+     * 表示是否有任何InstantiationAwareBeanPostProcessor已被注册<br/>
      */
     private boolean hasInstantiationAwareBeanPostProcessors;
 
-    /**
+    /**标志是否有DestructionAwareBeanPostProcessors已经被注册过<br/>
      * Indicates whether any DestructionAwareBeanPostProcessors have been registered
      */
     private boolean hasDestructionAwareBeanPostProcessors;
@@ -193,7 +147,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      */
     private SecurityContextProvider securityContextProvider;
 
-    /**
+    /**从beanName到合并的RootBeanDefinition之间映射关系的缓存<br/>
      * Map from bean name to merged RootBeanDefinition
      */
     private final Map<String, RootBeanDefinition> mergedBeanDefinitions =
@@ -206,7 +160,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     private final Set<String> alreadyCreated =
             Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(256));
 
-    /**
+    /**当前创建过程中的bean的名称<br/>
      * Names of beans that are currently in creation
      */
     private final ThreadLocal<Object> prototypesCurrentlyInCreation =

@@ -75,7 +75,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
     protected final Log logger = LogFactory.getLog(getClass());
 
     private XmlReaderContext readerContext;
-
+    /**定义解析Element的各种方法*/
     private BeanDefinitionParserDelegate delegate;
 
 
@@ -123,9 +123,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
         // then ultimately reset this.delegate back to its original (parent) reference.
         // this behavior emulates a stack of delegates without actually necessitating one.
         BeanDefinitionParserDelegate parent = this.delegate;
-        //创建bean definition的委托代理类
+        //创建bean definition的委托代理类,并初初始化委托类的默认配置
         this.delegate = createDelegate(getReaderContext(), root, parent);
-        //如果为开始标签
+        //如果为<beans>标签
         if (this.delegate.isDefaultNamespace(root)) {
             //解析处理profile
             String profileSpec = root.getAttribute(PROFILE_ATTRIBUTE);
@@ -175,6 +175,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
      * @param root the DOM root element of the document
      */
     protected void parseBeanDefinitions(Element root, BeanDefinitionParserDelegate delegate) {
+        //如果为beans标签
         if (delegate.isDefaultNamespace(root)) {
             NodeList nl = root.getChildNodes();
             //对beans下面的每个元素循环解析
@@ -229,7 +230,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
      */
     protected void importBeanDefinitionResource(Element ele) {
         String location = ele.getAttribute(RESOURCE_ATTRIBUTE);
-        //验证import标签里面是否必须包含了resource
+        //验证import标签里面是否包含了resource属性
         if (!StringUtils.hasText(location)) {
             getReaderContext().error("Resource location must not be empty", ele);
             return;
@@ -321,7 +322,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
     }
 
     /**
-     * 默认标签解析及提取到BeanDefinition</br>
+     * bean标签的解析方法,默认标签解析及提取到BeanDefinition</br>
      * Process the given bean element, parsing the bean definition
      * and registering it with the registry.
      */
@@ -329,7 +330,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
         //开始解析元素标签，委托代理类进行
         BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
         if (bdHolder != null) {
-            //查找对标签下的自定义标签，再次解析
+            //查找对标签下的自定义标签，再次解析,这里针对的是自定义标签不是一个Bean的情况,自定义类型是属性的情况
             bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
             try {
                 // Register the final decorated instance.

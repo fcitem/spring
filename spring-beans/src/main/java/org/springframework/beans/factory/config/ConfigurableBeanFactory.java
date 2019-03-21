@@ -29,7 +29,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.util.StringValueResolver;
 
-/**
+/**提供配置BeanFactory的各种方法<br/>
  * Configuration interface to be implemented by most bean factories. Provides
  * facilities to configure a bean factory, in addition to the bean factory
  * client methods in the {@link org.springframework.beans.factory.BeanFactory}
@@ -49,14 +49,14 @@ import org.springframework.util.StringValueResolver;
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
-	/**
+	/**单例作用域标识<br/>
 	 * Scope identifier for the standard singleton scope: "singleton".
 	 * Custom scopes can be added via {@code registerScope}.
 	 * @see #registerScope
 	 */
 	String SCOPE_SINGLETON = "singleton";
 
-	/**
+	/**多例作用域标识<br/>
 	 * Scope identifier for the standard prototype scope: "prototype".
 	 * Custom scopes can be added via {@code registerScope}.
 	 * @see #registerScope
@@ -92,7 +92,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	ClassLoader getBeanClassLoader();
 
-	/**指定一个临时ClassLoader用于类型匹配。 默认是none，只需使用标准的Bean ClassLoader即可。<br>
+	/**指定一个临时ClassLoader用于类型匹配。 默认是none，只需使用标准的Bean ClassLoader即可。<br/>
 	 * Specify a temporary ClassLoader to use for type matching purposes.
 	 * Default is none, simply using the standard bean ClassLoader.
 	 * <p>A temporary ClassLoader is usually just specified if
@@ -119,7 +119,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	void setCacheBeanMetadata(boolean cacheBeanMetadata);
 
-	/**
+	/**是否缓存bean元数据<br/>
 	 * Return whether to cache bean metadata such as given bean definitions
 	 * (in merged fashion) and resolved bean classes.
 	 */
@@ -182,7 +182,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	void copyRegisteredEditorsTo(PropertyEditorRegistry registry);
 
-	/**
+	/**设置类型转换器<br/>
 	 * Set a custom type converter that this BeanFactory should use for converting
 	 * bean property values, constructor argument values, etc.
 	 * <p>This will override the default PropertyEditor mechanism and hence make
@@ -202,7 +202,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	TypeConverter getTypeConverter();
 
-	/**
+	/**增加一个String解析器<br/>
 	 * Add a String resolver for embedded values such as annotation attributes.
 	 * @param valueResolver the String resolver to apply to embedded values
 	 * @since 3.0
@@ -217,7 +217,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 */
 	String resolveEmbeddedValue(String value);
 
-	/**增加一个BeanPostProcessor,它将应用到bean factory创建的bean中.在factory配置的过程中这个BeanPostProcessor将被调用<br>
+	/**增加一个BeanPostProcessor,它将应用到bean factory创建的bean中.在factory配置的过程中这个BeanPostProcessor将被调用<br/>
 	 * Add a new BeanPostProcessor that will get applied to beans created
 	 * by this factory. To be invoked during factory configuration.
 	 * <p>Note: Post-processors submitted here will be applied in the order of

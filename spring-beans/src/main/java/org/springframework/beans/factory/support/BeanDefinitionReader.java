@@ -20,7 +20,7 @@ import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-/**
+/**主要定义资源文件读取并转换为BeanDefinition的各个功能<br/>
  * Simple interface for bean definition readers.
  * Specifies load methods with Resource and String location parameters.
  *
@@ -79,7 +79,7 @@ public interface BeanDefinitionReader {
 	BeanNameGenerator getBeanNameGenerator();
 
 
-	/**
+	/**从给定的Resource中加载BeanDefinition<br/>
 	 * Load bean definitions from the specified resource.
 	 * @param resource the resource descriptor
 	 * @return the number of bean definitions found

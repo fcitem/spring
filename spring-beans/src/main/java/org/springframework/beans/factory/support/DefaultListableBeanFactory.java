@@ -38,7 +38,7 @@ import java.security.PrivilegedAction;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
+/**Spring的核心,Spring注册及加载bean的默认实现<br/>
  * Default implementation of the
  * {@link org.springframework.beans.factory.ListableBeanFactory} and
  * {@link BeanDefinitionRegistry} interfaces: a full-fledged bean factory
@@ -99,6 +99,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 
 	/** Map from serialized id to factory instance */
+	/** 缓存序列化ID到序列化工厂的映射: key=序列化id,value=序列化工厂 */
 	private static final Map<String, Reference<DefaultListableBeanFactory>> serializableFactories =
 			new ConcurrentHashMap<String, Reference<DefaultListableBeanFactory>>(8);
 
@@ -106,27 +107,35 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	private String serializationId;
 
 	/** Whether to allow re-registration of a different definition with the same name */
+	/** 是否允许用同一个名称注册不同的 definition,如果为true后面的BeanDefinition便会覆盖前面的bean */
 	private boolean allowBeanDefinitionOverriding = true;
 
 	/** Whether to allow eager class loading even for lazy-init beans */
+	/** 是否允许早期类加载暴露,即使是懒加载也如此 */
 	private boolean allowEagerClassLoading = true;
 
 	/** Optional OrderComparator for dependency Lists and arrays */
+	/** 依赖列表或者数组的可选优先级比较器 */
 	private Comparator<Object> dependencyComparator;
 
 	/** Resolver to use for checking if a bean definition is an autowire candidate */
+	/** 用于检查BeanDefinition是否为autowire候选者的解析器 */
 	private AutowireCandidateResolver autowireCandidateResolver = new SimpleAutowireCandidateResolver();
 
 	/** Map from dependency type to corresponding autowired value */
+	/** 存储依赖类型到相应的自动装配值 */
 	private final Map<Class<?>, Object> resolvableDependencies = new ConcurrentHashMap<Class<?>, Object>(16);
 
 	/** Map of bean definition objects, keyed by bean name */
+	/** 缓存bean对应的BeanDefinition的对应关系：key=beanName，value=BeanDefinition */
 	private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>(256);
 
 	/** Map of singleton and non-singleton bean names, keyed by dependency type */
+	/** 单例和非单例bean名称与依赖类型的映射关系：key=依赖类型，value=beanNames */
 	private final Map<Class<?>, String[]> allBeanNamesByType = new ConcurrentHashMap<Class<?>, String[]>(64);
 
 	/** Map of singleton-only bean names, keyed by dependency type */
+	/** 单例bean名称与依赖类型的映射关系：key=依赖类型，value=beanNames */
 	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<Class<?>, String[]>(64);
 
 	/** List of bean definition names, in registration order<br>
@@ -139,9 +148,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	private volatile Set<String> manualSingletonNames = new LinkedHashSet<String>(16);
 
 	/** Cached array of bean definition names in case of frozen configuration */
+	/** 缓存被冻结的（不允许再次被修改或者后处理）的BeanDefinition name */
 	private volatile String[] frozenBeanDefinitionNames;
 
 	/** Whether bean definition metadata may be cached for all beans */
+	/** 是否可以为所有bean缓存BeanDefinition原数据 */
 	private volatile boolean configurationFrozen = false;
 
 
@@ -152,7 +163,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		super();
 	}
 
-	/**
+	/**创建一个新的DefaultListableBeanFactory根据给定的parent<br/>
 	 * Create a new DefaultListableBeanFactory with the given parent.
 	 * @param parentBeanFactory the parent BeanFactory
 	 */
@@ -227,7 +238,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return this.allowEagerClassLoading;
 	}
 
-	/**
+	/** 设置依赖项优先级比较器<br/>
 	 * Set a {@link java.util.Comparator} for dependency Lists and arrays.
 	 * @see org.springframework.core.OrderComparator
 	 * @see org.springframework.core.annotation.AnnotationAwareOrderComparator

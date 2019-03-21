@@ -22,7 +22,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
-/**
+/**BeanFactory配置清单,指定忽略类型及接口等<br/>
  * Configuration interface to be implemented by most listable bean factories.
  * In addition to {@link ConfigurableBeanFactory}, it provides facilities to
  * analyze and modify bean definitions, and to pre-instantiate singletons.
@@ -41,7 +41,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 public interface ConfigurableListableBeanFactory
 		extends ListableBeanFactory, AutowireCapableBeanFactory, ConfigurableBeanFactory {
 
-	/**
+	/**设置自动注入时忽略的依赖类型<br/>
 	 * Ignore the given dependency type for autowiring:
 	 * for example, String. Default is none.
 	 * @param type the dependency type to ignore
@@ -61,7 +61,7 @@ public interface ConfigurableListableBeanFactory
 	 */
 	void ignoreDependencyInterface(Class<?> ifc);
 
-	/**用相应的自动装配值注册一个指定的依赖类型<br>
+	/**根据相应的autowired值注册一个特殊的依赖类型</br>
 	 * Register a special dependency type with corresponding autowired value.
 	 * <p>This is intended for factory/context references that are supposed
 	 * to be autowirable but are not defined as beans in the factory:
@@ -79,7 +79,7 @@ public interface ConfigurableListableBeanFactory
 	 */
 	void registerResolvableDependency(Class<?> dependencyType, Object autowiredValue);
 
-	/**
+	/**确认这个bean是否是一个autowire候选，将被注入到其他声明匹配类型的依赖的bean中<br/>
 	 * Determine whether the specified bean qualifies as an autowire candidate,
 	 * to be injected into other beans which declare a dependency of matching type.
 	 * <p>This method checks ancestor factories as well.
@@ -133,21 +133,21 @@ public interface ConfigurableListableBeanFactory
 	 */
 	void clearMetadataCache();
 
-	/**
+	/**冻结BeanDefinition,表明注册的BeanDefinition不会再被修改或者后处理<br/>
 	 * Freeze all bean definitions, signalling that the registered bean definitions
 	 * will not be modified or post-processed any further.
 	 * <p>This allows the factory to aggressively cache bean definition metadata.
 	 */
 	void freezeConfiguration();
 
-	/**
+	/**是否当前BeanDefinition是否已经被冻结<br/>
 	 * Return whether this factory's bean definitions are frozen,
 	 * i.e. are not supposed to be modified or post-processed any further.
 	 * @return {@code true} if the factory's configuration is considered frozen
 	 */
 	boolean isConfigurationFrozen();
 
-	/**
+	/**确保实例化所有非懒加载的单例<br/>
 	 * Ensure that all non-lazy-init singletons are instantiated, also considering
 	 * {@link org.springframework.beans.factory.FactoryBean FactoryBeans}.
 	 * Typically invoked at the end of factory setup, if desired.

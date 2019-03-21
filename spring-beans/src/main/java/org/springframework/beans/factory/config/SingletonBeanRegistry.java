@@ -16,7 +16,7 @@
 
 package org.springframework.beans.factory.config;
 
-/**
+/**定义对单例的注册及获取的顶级接口<br/>
  * Interface that defines a registry for shared bean instances.
  * Can be implemented by {@link org.springframework.beans.factory.BeanFactory}
  * implementations in order to expose their singleton management facility
@@ -55,7 +55,7 @@ public interface SingletonBeanRegistry {
 	 */
 	void registerSingleton(String beanName, Object singletonObject);
 
-	/**
+	/**从注册过的bean中获取指定名称的单例对象
 	 * Return the (raw) singleton object registered under the given name.
 	 * <p>Only checks already instantiated singletons; does not return an Object
 	 * for singleton bean definitions which have not been instantiated yet.
@@ -94,7 +94,7 @@ public interface SingletonBeanRegistry {
 	 */
 	boolean containsSingleton(String beanName);
 
-	/**
+	/**获取所有注册过的单例名称<br/>
 	 * Return the names of singleton beans registered in this registry.
 	 * <p>Only checks already instantiated singletons; does not return names
 	 * for singleton bean definitions which have not been instantiated yet.
@@ -108,7 +108,7 @@ public interface SingletonBeanRegistry {
 	 */
 	String[] getSingletonNames();
 
-	/**
+	/**获取注册过的单例对象数量<br/>
 	 * Return the number of singleton beans registered in this registry.
 	 * <p>Only checks already instantiated singletons; does not count
 	 * singleton bean definitions which have not been instantiated yet.
@@ -122,7 +122,7 @@ public interface SingletonBeanRegistry {
 	 */
 	int getSingletonCount();
 
-	/**
+	/**返回此注册表使用的单例互斥锁<br/>
 	 * Return the singleton mutex used by this registry (for external collaborators).
 	 * @return the mutex object (never {@code null})
 	 * @since 4.2

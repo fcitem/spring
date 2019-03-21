@@ -38,6 +38,7 @@ import org.springframework.util.StringValueResolver;
 public class SimpleAliasRegistry implements AliasRegistry {
 
 	/** Map from alias to canonical name */
+	/** 用map作为别名映射：key=别名,value=bean的真实注册名 */
 	private final Map<String, String> aliasMap = new ConcurrentHashMap<String, String>(16);
 
 
@@ -55,6 +56,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 					// An existing alias - no need to re-register
 					return;
 				}
+				//如果不允许别名
 				if (!allowAliasOverriding()) {
 					throw new IllegalStateException("Cannot register alias '" + alias + "' for name '" +
 							name + "': It is already registered for name '" + registeredName + "'.");
@@ -65,7 +67,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		}
 	}
 
-	/**
+	/**默认为true<br/>
 	 * Return whether alias overriding is allowed.
 	 * Default is {@code true}.
 	 */
@@ -73,7 +75,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		return true;
 	}
 
-	/**
+	/**确定给定名称是否已注册给定别名<br/>
 	 * Determine whether the given name has the given alias registered.
 	 * @param name the name to check
 	 * @param alias the alias to look for
@@ -187,7 +189,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		}
 	}
 
-	/**
+	/**确定原始名称，将别名解析为规范名称<br/>
 	 * Determine the raw name, resolving aliases to canonical names.
 	 * @param name the user-specified name
 	 * @return the transformed name

@@ -211,6 +211,7 @@ public class BeanDefinitionParserDelegate {
 
     private final DocumentDefaultsDefinition defaults = new DocumentDefaultsDefinition();
 
+    /**BeanDefinition加载解析过程存储栈*/
     private final ParseState parseState = new ParseState();
 
     /**
@@ -327,10 +328,11 @@ public class BeanDefinitionParserDelegate {
         String merge = root.getAttribute(DEFAULT_MERGE_ATTRIBUTE);
         if (DEFAULT_VALUE.equals(merge)) {
             // Potentially inherited from outer <beans> sections, otherwise falling back to false.
+            //设置merge行为false
             merge = (parentDefaults != null ? parentDefaults.getMerge() : FALSE_VALUE);
         }
         defaults.setMerge(merge);
-        //设置默认注入模式，默认是byType模式
+        //设置默认注入模式为 AUTOWIRE_NO_VALUE
         String autowire = root.getAttribute(DEFAULT_AUTOWIRE_ATTRIBUTE);
         if (DEFAULT_VALUE.equals(autowire)) {
             // Potentially inherited from outer <beans> sections, otherwise falling back to 'no'.
@@ -355,6 +357,7 @@ public class BeanDefinitionParserDelegate {
         }
 
         if (root.hasAttribute(DEFAULT_DESTROY_METHOD_ATTRIBUTE)) {
+            //设置销毁方法
             defaults.setDestroyMethod(root.getAttribute(DEFAULT_DESTROY_METHOD_ATTRIBUTE));
         } else if (parentDefaults != null) {
             defaults.setDestroyMethod(parentDefaults.getDestroyMethod());
@@ -402,6 +405,7 @@ public class BeanDefinitionParserDelegate {
      * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
      */
     public BeanDefinitionHolder parseBeanDefinitionElement(Element ele) {
+        //containingBean表示内部BeanDefinition,如果为null则代表没有
         return parseBeanDefinitionElement(ele, null);
     }
 
@@ -409,7 +413,7 @@ public class BeanDefinitionParserDelegate {
      * 1、提取元素中的id以及name属性
      * 2、进一步解析其他所有属性并统一封装在BeanDefinition
      * 3、如果检测到bean没有指定beanName，则用spring默认的规则生成beanName
-     * 4、将获取到的信息封装到BeanDefinitionHolder的实例中去
+     * 4、将获取到的信息封装到BeanDefinitionHolder的实例中去并返回
      */
     public BeanDefinitionHolder parseBeanDefinitionElement(Element ele, BeanDefinition containingBean) {
         //获取id
@@ -439,7 +443,7 @@ public class BeanDefinitionParserDelegate {
             //检查bean名字(id)的唯一性
             checkNameUniqueness(beanName, aliases, ele);
         }
-        //解析bean definition
+        //解析并封装为BeanDefinition
         AbstractBeanDefinition beanDefinition = parseBeanDefinitionElement(ele, beanName, containingBean);
         if (beanDefinition != null) {
             if (!StringUtils.hasText(beanName)) {
@@ -500,7 +504,7 @@ public class BeanDefinitionParserDelegate {
     }
 
     /**
-     * 解析bean definition本身<br>
+     * 解析BeanDefinition,而不考虑名称或别名<br/>
      * Parse the bean definition itself, without regard to name or aliases. May return
      * {@code null} if problems occurred during the parsing of the bean definition.
      */

@@ -43,7 +43,7 @@ public class BeanDefinitionReaderUtils {
 	public static final String GENERATED_BEAN_NAME_SEPARATOR = BeanFactoryUtils.GENERATED_BEAN_NAME_SEPARATOR;
 
 
-	/**从这个确定的classname和parentname创建一个GenericBeanDefinition,如果制定了classloader就加载这个类<br>
+	/**从给定的className和parentName创建一个GenericBeanDefinition,如果制定了classloader就加载这个类<br/>
 	 * Create a new GenericBeanDefinition for the given parent name and class name,
 	 * eagerly loading the bean class if a ClassLoader has been specified.
 	 * @param parentName the name of the parent bean, if any

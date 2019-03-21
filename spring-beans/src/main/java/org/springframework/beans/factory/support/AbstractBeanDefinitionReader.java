@@ -32,7 +32,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
 
-/**
+/**对EnvironmentCapable,BeanDefinitionReader的方法实现<br/>
  * Abstract base class for bean definition readers which implement
  * the {@link BeanDefinitionReader} interface.
  *

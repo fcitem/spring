@@ -98,27 +98,33 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/** 用来保存当前所有已注册的bean*/
 	private final Set<String> registeredSingletons = new LinkedHashSet<String>(256);
 
-	/** Names of beans that are currently in creation */
+	/** 当前正在创建的bean的名称的集合 */
 	private final Set<String> singletonsCurrentlyInCreation =
 			Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(16));
 
 	/** Names of beans currently excluded from in creation checks */
+	/** 从当前bean创建检查过程中排除的beanName集合 */
 	private final Set<String> inCreationCheckExclusions =
 			Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(16));
 
 	/** List of suppressed Exceptions, available for associating related causes */
+	/** 被抑制的异常列表,可用于异常的关联 */
 	private Set<Exception> suppressedExceptions;
 
 	/** Flag that indicates whether we're currently within destroySingletons */
+	/** 标志我们当前正在destroySingletons中 */
 	private boolean singletonsCurrentlyInDestruction = false;
 
 	/** Disposable bean instances: bean name --> disposable instance */
+	/** 存储Disposable bean 实例: bean name --> disposable instance */
 	private final Map<String, Object> disposableBeans = new LinkedHashMap<String, Object>();
 
 	/** Map between containing bean names: bean name --> Set of bean names that the bean contains */
+	/** 包含的bean名称之间的映射: bean name --> bean包含的其他bean名称集 */
 	private final Map<String, Set<String>> containedBeanMap = new ConcurrentHashMap<String, Set<String>>(16);
 
 	/** Map between dependent bean names: bean name --> Set of dependent bean names */
+	/** 依赖的bean之间的映射 bean names: bean name --> Set of dependent bean names */
 	private final Map<String, Set<String>> dependentBeanMap = new ConcurrentHashMap<String, Set<String>>(64);
 
 	/** Map between depending bean names: bean name --> Set of bean names for the bean's dependencies */
@@ -138,7 +144,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		}
 	}
 
-	/**将结果记录至缓存并删除加载bean过程中所记录的各种辅助状态<b/>
+	/**将结果记录至缓存并删除加载bean过程中所记录的各种辅助状态<br/>
 	 * Add the given singleton object to the singleton cache of this factory.
 	 * <p>To be called for eager registration of singletons.
 	 * @param beanName the name of the bean

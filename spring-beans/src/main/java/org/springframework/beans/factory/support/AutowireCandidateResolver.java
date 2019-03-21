@@ -19,7 +19,7 @@ package org.springframework.beans.factory.support;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.DependencyDescriptor;
 
-/**
+/**策略接口,由它来决定特定的BeanDefinition对特定的依赖是否可以作为一个自动绑定的候选项<br/>
  * Strategy interface for determining whether a specific bean definition
  * qualifies as an autowire candidate for a specific dependency.
  *

@@ -25,7 +25,7 @@ package org.springframework.core;
  */
 public interface AliasRegistry {
 
-	/**
+	/**给定一个名称,为其注册别名<br/>
 	 * Given a name, register an alias for it.
 	 * @param name the canonical name
 	 * @param alias the alias to be registered
@@ -34,14 +34,14 @@ public interface AliasRegistry {
 	 */
 	void registerAlias(String name, String alias);
 
-	/**
+	/**从注册表中移除指定的别名<br/>
 	 * Remove the specified alias from this registry.
 	 * @param alias the alias to remove
 	 * @throws IllegalStateException if no such alias was found
 	 */
 	void removeAlias(String alias);
 
-	/**
+	/**确定此给定名称是否是一个别名<br/>
 	 * Determine whether this given name is defines as an alias
 	 * (as opposed to the name of an actually registered component).
 	 * @param name the name to check
@@ -49,7 +49,7 @@ public interface AliasRegistry {
 	 */
 	boolean isAlias(String name);
 
-	/**
+	/**获取给定名称的所有别名,如果有的话<br/>
 	 * Return the aliases for the given name, if defined.
 	 * @param name the name to check for aliases
 	 * @return the aliases, or an empty array if none
