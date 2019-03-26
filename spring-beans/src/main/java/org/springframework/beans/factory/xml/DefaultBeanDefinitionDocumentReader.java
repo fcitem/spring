@@ -92,7 +92,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
         logger.debug("Loading bean definitions");
         //获取root根元素
         Element root = doc.getDocumentElement();
-        //在给定的根<beans />元素内注册每个bean定义及真正的开始解析
+        //在给定的根<beans />元素内注册每个bean定义及真正的解析开始
         doRegisterBeanDefinitions(root);
     }
 

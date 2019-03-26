@@ -57,7 +57,7 @@ public class ResourceEntityResolver extends DelegatingEntityResolver {
 	private final ResourceLoader resourceLoader;
 
 
-	/**根据ResourceLoader创建一个ResourceEntityResolver<br>
+	/**根据ResourceLoader创建一个ResourceEntityResolver<br/>
 	 * Create a ResourceEntityResolver for the specified ResourceLoader
 	 * (usually, an ApplicationContext).
 	 * @param resourceLoader the ResourceLoader (or ApplicationContext)

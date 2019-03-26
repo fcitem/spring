@@ -77,7 +77,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
         return builder.parse(inputSource);
     }
 
-    /**
+    /**创建一个DocumentBuilderFactory实例<br/>
      * Create the {@link DocumentBuilderFactory} instance.
      *
      * @param validationMode the type of validation: {@link XmlValidationModeDetector#VALIDATION_DTD DTD}

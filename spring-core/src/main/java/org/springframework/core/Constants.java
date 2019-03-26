@@ -26,7 +26,7 @@ import java.util.Set;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
-/**
+/**常量工区工具类,通过反射的方式获取目标source类中所有的public static final的常量放入一个Map中<br/>
  * This class can be used to parse other classes containing constant definitions
  * in public static final members. The {@code asXXXX} methods of this class
  * allow these constant values to be accessed via their string names.

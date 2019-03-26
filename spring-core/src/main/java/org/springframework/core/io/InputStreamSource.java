@@ -19,7 +19,7 @@ package org.springframework.core.io;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
+/**任何能返回InputStream的类的顶层接口抽象
  * Simple interface for objects that are sources for an {@link InputStream}.
  *
  * <p>This is the base interface for Spring's more extensive {@link Resource} interface.

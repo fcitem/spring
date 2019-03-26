@@ -298,14 +298,14 @@ public class BeanDefinitionParserDelegate {
      * @see #getDefaults()
      */
     public void initDefaults(Element root, BeanDefinitionParserDelegate parent) {
-        //设置BeanDefinition解析器的默认值,后面直接取
+        //填充BeanDefinition解析器的默认值,后面直接取
         populateDefaults(this.defaults, (parent != null ? parent.defaults : null), root);
         //事件通知
         this.readerContext.fireDefaultsRegistered(this.defaults);
     }
 
     /**
-     * bean definition的默认设置<br>
+     * BeanDefinition的默认设置<br/>
      * Populate the given DocumentDefaultsDefinition instance with the default lazy-init,
      * autowire, dependency check settings, init-method, destroy-method and merge settings.
      * Support nested 'beans' element use cases by falling back to <literal>parentDefaults</literal>
