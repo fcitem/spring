@@ -183,7 +183,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
                 Node node = nl.item(i);
                 if (node instanceof Element) {
                     Element ele = (Element) node;
-                    //对于根节点或者子节点如果是默认命名空间的话
+                    //对于根节点或者子节点如果是默认命名空间(只有beans标签)的话
                     if (delegate.isDefaultNamespace(ele)) {
                         //解析在默认的root(beans)下面的标签
                         parseDefaultElement(ele, delegate);
