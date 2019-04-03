@@ -751,11 +751,12 @@ public class BeanDefinitionParserDelegate {
     }
 
     /**
-     * 解析property<br>
+     * 解析property子标签<br/>
      * Parse property sub-elements of the given bean element.
      */
     public void parsePropertyElements(Element beanEle, BeanDefinition bd) {
         NodeList nl = beanEle.getChildNodes();
+        //遍历子标签元素
         for (int i = 0; i < nl.getLength(); i++) {
             Node node = nl.item(i);
             if (isCandidateElement(node) && nodeNameEquals(node, PROPERTY_ELEMENT)) {
@@ -1022,7 +1023,7 @@ public class BeanDefinitionParserDelegate {
             valueHolder.setSource(extractSource(ele));
             return valueHolder;
         } else if (subElement != null) {
-            //解析子元素
+            //解析子元素,返回解析的结果
             return parsePropertySubElement(subElement, bd);
         } else {
             // Neither child element nor "ref" or "value" attribute found.
@@ -1036,7 +1037,7 @@ public class BeanDefinitionParserDelegate {
     }
 
     /**
-     * 解析constructor-arg标签下的一个value,ref或者collection子标签<br>
+     * 解析properties标签下的一个value,ref或者collection子标签<br>
      * Parse a value, ref or collection sub-element of a property or
      * constructor-arg element.
      *
@@ -1046,8 +1047,11 @@ public class BeanDefinitionParserDelegate {
      */
     public Object parsePropertySubElement(Element ele, BeanDefinition bd, String defaultValueType) {
         if (!isDefaultNamespace(ele)) {
+            //不属于spring默认命名空间,自定义标签处理
             return parseNestedCustomElement(ele, bd);
         } else if (nodeNameEquals(ele, BEAN_ELEMENT)) {
+            //bean标签处理
+            //解析子bean标签的BeanDefinition
             BeanDefinitionHolder nestedBd = parseBeanDefinitionElement(ele, bd);
             if (nestedBd != null) {
                 nestedBd = decorateBeanDefinitionIfRequired(ele, nestedBd, bd);
