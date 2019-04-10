@@ -17,6 +17,7 @@
 package org.springframework.core;
 
 /**
+ * 继承自Order接口:若对象o1是Ordered接口类型,o2是PriorityOrdered接口类型，那么o2的优先级高于o1,相反亦然;若两者都是Ordered接口类型或两者都是PriorityOrdered接口类型,order值越大,优先级越小<br/>
  * Extension of the {@link Ordered} interface, expressing a <em>priority</em>
  * ordering: order values expressed by {@code PriorityOrdered} objects
  * always apply before same order values expressed by <em>plain</em>
@@ -34,9 +35,9 @@ package org.springframework.core;
  * beans which do not require eager initialization for type matching.
  *
  * @author Juergen Hoeller
- * @since 2.5
  * @see org.springframework.beans.factory.config.PropertyOverrideConfigurer
  * @see org.springframework.beans.factory.config.PropertyPlaceholderConfigurer
+ * @since 2.5
  */
 public interface PriorityOrdered extends Ordered {
 

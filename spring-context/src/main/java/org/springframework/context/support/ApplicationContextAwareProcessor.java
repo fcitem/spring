@@ -62,7 +62,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 	private final ConfigurableApplicationContext applicationContext;
 
 
-	/**为给定的上下文创建一个{@code ApplicationContextAwareProcessor}<br>
+	/**为给定的上下文创建一个ApplicationContextAwareProcessor{@code ApplicationContextAwareProcessor}<br/>
 	 * Create a new ApplicationContextAwareProcessor for the given context.
 	 */
 	public ApplicationContextAwareProcessor(ConfigurableApplicationContext applicationContext) {
@@ -98,6 +98,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 	}
 
 	private void invokeAwareInterfaces(Object bean) {
+		//如果bean实现了Aware接口,设置一些对应的资源属性
 		if (bean instanceof Aware) {
 			if (bean instanceof EnvironmentAware) {
 				((EnvironmentAware) bean).setEnvironment(this.applicationContext.getEnvironment());

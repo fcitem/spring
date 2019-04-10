@@ -88,6 +88,7 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
         ClassPathBeanDefinitionScanner scanner = configureScanner(parserContext, element);
         //包扫描
         Set<BeanDefinitionHolder> beanDefinitions = scanner.doScan(basePackages);
+        //注册component
         registerComponents(parserContext.getReaderContext(), beanDefinitions, element);
 
         return null;
@@ -139,14 +140,17 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
     protected void registerComponents(
             XmlReaderContext readerContext, Set<BeanDefinitionHolder> beanDefinitions, Element element) {
 
+        //解析获取原始对象
         Object source = readerContext.extractSource(element);
         CompositeComponentDefinition compositeDef = new CompositeComponentDefinition(element.getTagName(), source);
-
+        //遍历BeanDefinitionHolder集合
         for (BeanDefinitionHolder beanDefHolder : beanDefinitions) {
+            //对每个BeanDefinitionHolder包装成BeanComponentDefinition并加入集合中
             compositeDef.addNestedComponent(new BeanComponentDefinition(beanDefHolder));
         }
 
         // Register annotation config processors, if necessary.
+        //注册注解解析器
         boolean annotationConfig = true;
         if (element.hasAttribute(ANNOTATION_CONFIG_ATTRIBUTE)) {
             annotationConfig = Boolean.valueOf(element.getAttribute(ANNOTATION_CONFIG_ATTRIBUTE));

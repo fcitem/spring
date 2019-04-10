@@ -18,7 +18,7 @@ package org.springframework.beans.factory.config;
 
 import org.springframework.beans.BeansException;
 
-/**允许自定义修改新的bean实例,例如 检查标记接口或用代理包装它们<br>
+/**允许自定义修改新的bean实例,例如 检查标记接口或用代理包装它们<br/>
  * Factory hook that allows for custom modification of new bean instances,
  * e.g. checking for marker interfaces or wrapping them with proxies.
  *<p>ApplicationContexts可以在其bean定义中自动检测BeanPostProcessor bean，并将它们应用于随后创建的任何bean
@@ -41,7 +41,7 @@ import org.springframework.beans.BeansException;
  */
 public interface BeanPostProcessor {
 
-	/**
+	/**在spring实例初始化(init-method)一个bean之前的方法回调<br/>
 	 * Apply this BeanPostProcessor to the given new bean instance <i>before</i> any bean
 	 * initialization callbacks (like InitializingBean's {@code afterPropertiesSet}
 	 * or a custom init-method). The bean will already be populated with property values.
@@ -55,7 +55,7 @@ public interface BeanPostProcessor {
 	 */
 	Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException;
 
-	/**
+	/**在spring实例初始化(init-method)一个bean之后的方法回调<br/>
 	 * Apply this BeanPostProcessor to the given new bean instance <i>after</i> any bean
 	 * initialization callbacks (like InitializingBean's {@code afterPropertiesSet}
 	 * or a custom init-method). The bean will already be populated with property values.

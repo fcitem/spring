@@ -73,7 +73,7 @@ public interface ApplicationEventMulticaster {
 	 */
 	void multicastEvent(ApplicationEvent event);
 
-	/**
+	/**将给定的应用程序事件广播到适当的监听器<br/>
 	 * Multicast the given application event to appropriate listeners.
 	 * <p>If the {@code eventType} is {@code null}, a default type is built
 	 * based on the {@code event} instance.

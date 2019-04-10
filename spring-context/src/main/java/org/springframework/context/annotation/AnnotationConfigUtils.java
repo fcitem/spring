@@ -136,7 +136,7 @@ public class AnnotationConfigUtils {
         registerAnnotationConfigProcessors(registry, null);
     }
 
-    /**
+    /**向容器注册一些注解的后置处理器<br/>
      * Register all relevant annotation post processors in the given registry.
      *
      * @param registry the registry to operate on
@@ -147,13 +147,14 @@ public class AnnotationConfigUtils {
      */
     public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
             BeanDefinitionRegistry registry, Object source) {
-
+        //获取BeanFactory
         DefaultListableBeanFactory beanFactory = unwrapDefaultListableBeanFactory(registry);
         if (beanFactory != null) {
             if (!(beanFactory.getDependencyComparator() instanceof AnnotationAwareOrderComparator)) {
                 beanFactory.setDependencyComparator(AnnotationAwareOrderComparator.INSTANCE);
             }
             if (!(beanFactory.getAutowireCandidateResolver() instanceof ContextAnnotationAutowireCandidateResolver)) {
+                //设置Autowired和Qualifier注解解析器
                 beanFactory.setAutowireCandidateResolver(new ContextAnnotationAutowireCandidateResolver());
             }
         }

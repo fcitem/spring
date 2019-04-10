@@ -50,5 +50,12 @@ public class BootApp {
 		//获取加载bean
 		beanFactory.getBean("test");
 	}
+	@Test
+	public void test3() {
+		ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("");
+		System.out.println(null instanceof Object);
+		//获取加载bean
+		beanFactory.getBean("test");
+	}
 
 }

@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.springframework.util.Assert;
 
-/**
+/**存放ComponentDefinition的对象<br/>
  * {@link ComponentDefinition} implementation that holds one or more nested
  * {@link ComponentDefinition} instances, aggregating them into a named group
  * of components.
