@@ -20,7 +20,7 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
-/**
+/**AOP标签切入spring入口<br/>
  * {@code NamespaceHandler} for the {@code aop} namespace.
  *
  * <p>Provides a {@link org.springframework.beans.factory.xml.BeanDefinitionParser} for the
@@ -62,8 +62,11 @@ public class AopNamespaceHandler extends NamespaceHandlerSupport {
 	@Override
 	public void init() {
 		// In 2.0 XSD as well as in 2.1 XSD.
+		//注册<aop:config>标签解析类
 		registerBeanDefinitionParser("config", new ConfigBeanDefinitionParser());
+		//注册<aop:aspectj-autoproxy>标签解析类
 		registerBeanDefinitionParser("aspectj-autoproxy", new AspectJAutoProxyBeanDefinitionParser());
+		//注册<aop:scoped-proxy>标签解析类
 		registerBeanDefinitionDecorator("scoped-proxy", new ScopedProxyBeanDefinitionDecorator());
 
 		// Only in 2.0 XSD: moved to context namespace as of 2.1

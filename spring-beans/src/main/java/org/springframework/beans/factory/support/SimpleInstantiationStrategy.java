@@ -58,7 +58,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	@Override
 	public Object instantiate(RootBeanDefinition bd, String beanName, BeanFactory owner) {
 		// Don't override the class with CGLIB if no overrides.
-		//如果用户没有使用replace或者lookup配置,就可以直接使用反射的方式
+		//如果用户没有replace或者lookup的配置,就可以直接使用反射的方式
 		if (bd.getMethodOverrides().isEmpty()) {
 			Constructor<?> constructorToUse;
 			synchronized (bd.constructorArgumentLock) {
@@ -87,6 +87,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 					}
 				}
 			}
+			//用构造函数实例化bean
 			return BeanUtils.instantiateClass(constructorToUse);
 		}
 		else {

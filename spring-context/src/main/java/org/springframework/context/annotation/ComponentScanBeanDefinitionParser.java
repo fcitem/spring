@@ -86,7 +86,7 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
         // Actually scan for bean definitions and register them.
         //配置构建一个ClassPathBeanDefinitionScanner
         ClassPathBeanDefinitionScanner scanner = configureScanner(parserContext, element);
-        //包扫描
+        //包扫描,得到对应的扫描结果BeanDefinition
         Set<BeanDefinitionHolder> beanDefinitions = scanner.doScan(basePackages);
         //注册component
         registerComponents(parserContext.getReaderContext(), beanDefinitions, element);
@@ -156,6 +156,7 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
             annotationConfig = Boolean.valueOf(element.getAttribute(ANNOTATION_CONFIG_ATTRIBUTE));
         }
         if (annotationConfig) {
+            //注册后置处理器
             Set<BeanDefinitionHolder> processorDefinitions =
                     AnnotationConfigUtils.registerAnnotationConfigProcessors(readerContext.getRegistry(), source);
             for (BeanDefinitionHolder processorDefinition : processorDefinitions) {

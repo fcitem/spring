@@ -72,7 +72,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	}
 
 
-	/**
+	/**从beanFactory中查找获取标记有AspectJ注解的bean,返回从中提取出的Advisor列表<br/>
 	 * Look for AspectJ-annotated aspect beans in the current bean factory,
 	 * and return to a list of Spring AOP Advisors representing them.
 	 * <p>Creates a Spring Advisor for each AspectJ advice method.
@@ -87,25 +87,33 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 			if (aspectNames == null) {
 				List<Advisor> advisors = new LinkedList<Advisor>();
 				aspectNames = new LinkedList<String>();
+				//从beanFactory中获取所有的beanName
 				String[] beanNames =
 						BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this.beanFactory, Object.class, true, false);
+				//遍历所有的beanName
 				for (String beanName : beanNames) {
+					//检查beanName是否合规,由子类定义规则,默认返回true
 					if (!isEligibleBean(beanName)) {
 						continue;
 					}
 					// We must be careful not to instantiate beans eagerly as in this
 					// case they would be cached by the Spring container but would not
 					// have been weaved
+					//获取对应的bean类型
 					Class<?> beanType = this.beanFactory.getType(beanName);
 					if (beanType == null) {
 						continue;
 					}
+					//如果存在Aspect注解
 					if (this.advisorFactory.isAspect(beanType)) {
+						//加入缓存
 						aspectNames.add(beanName);
+						//根据name和type构建一个AspectMetadata
 						AspectMetadata amd = new AspectMetadata(beanType, beanName);
 						if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 							MetadataAwareAspectInstanceFactory factory =
 									new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
+							//解析标记AspectJ注解中的增强方法
 							List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 							if (this.beanFactory.isSingleton(beanName)) {
 								this.advisorsCache.put(beanName, classAdvisors);
@@ -113,6 +121,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 							else {
 								this.aspectFactoryCache.put(beanName, factory);
 							}
+							//加入缓存
 							advisors.addAll(classAdvisors);
 						}
 						else {

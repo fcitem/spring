@@ -325,7 +325,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 	@Override
 	public PropertyValues postProcessPropertyValues(
 			PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
-
+        //查找标有Autowire注解的属性
 		InjectionMetadata metadata = findAutowiringMetadata(beanName, bean.getClass(), pvs);
 		try {
 			metadata.inject(bean, beanName, pvs);
@@ -367,6 +367,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 						metadata.clear(pvs);
 					}
 					try {
+						//根据给定的class查找所有符合Autowire处理的属性封装构建成一个新的InjectionMetadata
 						metadata = buildAutowiringMetadata(clazz);
 						this.injectionMetadataCache.put(cacheKey, metadata);
 					}
@@ -387,7 +388,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 		do {
 			final LinkedList<InjectionMetadata.InjectedElement> currElements =
 					new LinkedList<InjectionMetadata.InjectedElement>();
-
+            //扫描目标类上面的域包括注解的属性
 			ReflectionUtils.doWithLocalFields(targetClass, new ReflectionUtils.FieldCallback() {
 				@Override
 				public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
@@ -399,12 +400,13 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 							}
 							return;
 						}
+						//判断是否为required
 						boolean required = determineRequiredStatus(ann);
 						currElements.add(new AutowiredFieldElement(field, required));
 					}
 				}
 			});
-
+            //扫描目标类上面的方法包括注解的方法
 			ReflectionUtils.doWithLocalMethods(targetClass, new ReflectionUtils.MethodCallback() {
 				@Override
 				public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
@@ -425,7 +427,8 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 								logger.warn("Autowired annotation should be used on methods with parameters: " + method);
 							}
 						}
-						boolean required = determineRequiredStatus(ann);
+                        //判断是否为required
+                        boolean required = determineRequiredStatus(ann);
 						PropertyDescriptor pd = BeanUtils.findPropertyForMethod(bridgedMethod, clazz);
 						currElements.add(new AutowiredMethodElement(method, required, pd));
 					}

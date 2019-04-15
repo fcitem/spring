@@ -60,7 +60,7 @@ public interface AspectJAdvisorFactory {
 	 */
 	void validate(Class<?> aspectClass) throws AopConfigException;
 
-	/**
+	/**为所有带AspectJ注释的方法构建Spring AOP Advisors<br/>
 	 * Build Spring AOP Advisors for all annotated At-AspectJ methods
 	 * on the specified aspect instance.
 	 * @param aspectInstanceFactory the aspect instance factory
