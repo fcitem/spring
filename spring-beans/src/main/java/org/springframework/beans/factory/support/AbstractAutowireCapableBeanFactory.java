@@ -535,7 +535,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			//对bean进行填充,将各个属性值注入,其中,可能存在依赖于(Autowired)其他bean的属性,则会递归初始依赖bean
 			populateBean(beanName, mbd, instanceWrapper);
 			if (exposedObject != null) {
-				//调用初始化方法,比如init-method
+				//调用初始化方法,比如init-method,或者生成aop动态代理
 				exposedObject = initializeBean(beanName, exposedObject, mbd);
 			}
 		}
@@ -1605,7 +1605,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-			//应用后处理器
+			//应用后处理器之前
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
@@ -1620,7 +1620,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (mbd == null || !mbd.isSynthetic()) {
-			//后处理器应用
+			//后处理器应用,这儿可调用AbstractAutoProxyCreator的后置处理器生成动态代理返回
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 		return wrappedBean;

@@ -43,13 +43,15 @@ package org.springframework.aop.framework;
  */
 public interface AopProxyFactory {
 
-	/**
-	 * Create an {@link AopProxy} for the given AOP configuration.
-	 * @param config the AOP configuration in the form of an
-	 * AdvisedSupport object
-	 * @return the corresponding AOP proxy
-	 * @throws AopConfigException if the configuration is invalid
-	 */
-	AopProxy createAopProxy(AdvisedSupport config) throws AopConfigException;
+    /**
+     * 根据具体的配置创建一个AopProxy;有可能是JdkDynamicAopProxy或者CglibAopProxy<br/>
+     * Create an {@link AopProxy} for the given AOP configuration.
+     *
+     * @param config the AOP configuration in the form of an
+     *               AdvisedSupport object
+     * @return the corresponding AOP proxy
+     * @throws AopConfigException if the configuration is invalid
+     */
+    AopProxy createAopProxy(AdvisedSupport config) throws AopConfigException;
 
 }

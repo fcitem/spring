@@ -40,7 +40,7 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 	private boolean active = false;
 
 
-	/**
+	/**创建一个ProxyCreatorSupport实例,初始化一个默认的DefaultAopProxyFactory<br/>
 	 * Create a new ProxyCreatorSupport instance.
 	 */
 	public ProxyCreatorSupport() {
