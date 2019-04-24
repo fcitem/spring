@@ -208,6 +208,7 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 	 */
 	@Override
 	public RequestMappingInfo getMatchingCondition(HttpServletRequest request) {
+		//查看RequestMappingInfo的所有属性是否匹配
 		RequestMethodsRequestCondition methods = this.methodsCondition.getMatchingCondition(request);
 		ParamsRequestCondition params = this.paramsCondition.getMatchingCondition(request);
 		HeadersRequestCondition headers = this.headersCondition.getMatchingCondition(request);
@@ -225,7 +226,7 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 				return null;
 			}
 		}
-
+        //这儿检查路径是否匹配
 		PatternsRequestCondition patterns = this.patternsCondition.getMatchingCondition(request);
 		if (patterns == null) {
 			return null;

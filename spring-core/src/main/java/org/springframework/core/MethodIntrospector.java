@@ -69,10 +69,12 @@ public abstract class MethodIntrospector {
 				@Override
 				public void doWith(Method method) {
 					Method specificMethod = ClassUtils.getMostSpecificMethod(method, targetClass);
+					//根据方法上的@RequestMapping来创建RequestMappingInfo实例
 					T result = metadataLookup.inspect(specificMethod);
 					if (result != null) {
 						Method bridgedMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
 						if (bridgedMethod == specificMethod || metadataLookup.inspect(bridgedMethod) == null) {
+							//key=method,value=根据method解析出的RequestMappingInfo实例
 							methodMap.put(specificMethod, result);
 						}
 					}
